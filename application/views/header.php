@@ -16,14 +16,19 @@ if (session_status() == PHP_SESSION_NONE) {
 <script src="<?php echo base_url();?>script/bootstrap.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-  function loadMadeBy(year) {
-    if (year == "empty") {
-      document.getElementById("madeBy").innerHTML = "<option value='empty'>--Select a Made By--</option>";
-      document.getElementById("model").innerHTML = "<option value='empty'>--Select a Model--</option>";
-      document.getElementById("submodel").innerHTML = "<option value='empty'>--Select a Submodel--</option>";
-      document.getElementById("engine").innerHTML = "<option value='empty'>--Select a Engine--</option>";
+  function loadMadeBy(inputMadeBy,inputModel,inputSubmodel,inputEngine,year) {
+    if (year == "") {
+      document.getElementById(inputMadeBy).innerHTML= "<option value='empty'>--Select a Made By--</option>";
+      document.getElementById(inputModel).innerHTML="<option value='empty'>--Select a Model--</option>";
+      document.getElementById(inputSubmodel).innerHTML= "<option value='empty'>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML= "<option value='empty'>--Select a Engine--</option>";
+
       return;
     } else { 
+      document.getElementById(inputModel).innerHTML="<option value='empty'>--Select a Model--</option>";
+      document.getElementById(inputSubmodel).innerHTML= "<option value='empty'>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML= "<option value='empty'>--Select a Engine--</option>";
+
       if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp = new XMLHttpRequest();
@@ -33,24 +38,26 @@ if (session_status() == PHP_SESSION_NONE) {
       }
       xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4){
-          document.getElementById("madeBy").disabled=false;
+          document.getElementById(inputMadeBy).disabled=false;
           if(xmlhttp.status == 200) {
-            document.getElementById("madeBy").innerHTML = xmlhttp.responseText;
+            document.getElementById(inputMadeBy).innerHTML = xmlhttp.responseText;
           }
         }  
       }
-      xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/AutopartManage/loadMadeBy/"+year,true);
+      xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/AutopartManage/loadMadeBy/"+escape(year),true);
       xmlhttp.send();
     }
   }
 
-  function loadModel(year,madeBy) {
-    if (madeBy == "empty") {
-      document.getElementById("model").innerHTML = "<option value='empty'>--Select a Model--</option>";
-      document.getElementById("submodel").innerHTML = "<option value='empty'>--Select a Submodel--</option>";
-      document.getElementById("engine").innerHTML = "<option value='empty'>--Select a Engine--</option>";
+  function loadModel(inputModel,inputSubmodel,inputEngine,year,madeBy) {
+    if (madeBy == "") {
+      document.getElementById(inputModel).innerHTML = "<option value='empty'>--Select a Model--</option>";
+      document.getElementById(inputSubmodel).innerHTML = "<option value='empty'>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
       return;
     } else { 
+      document.getElementById(inputSubmodel).innerHTML = "<option value='empty'>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
       if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp = new XMLHttpRequest();
@@ -60,21 +67,22 @@ if (session_status() == PHP_SESSION_NONE) {
       }
       xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-          document.getElementById("model").innerHTML = xmlhttp.responseText;
+          document.getElementById(inputModel).innerHTML = xmlhttp.responseText;
         }
       }
       
-      xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/AutopartManage/loadModel/"+year+"/"+madeBy,true);
+      xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/AutopartManage/loadModel/"+escape(year)+"/"+escape(madeBy),true);
       xmlhttp.send();
     }
   }
 
-  function loadSubmodel(year,madeBy,model){
-    if (model == "empty") {
-      document.getElementById("submodel").innerHTML = "<option value='empty'>--Select a Submodel--</option>";
-      document.getElementById("engine").innerHTML = "<option value='empty'>--Select a Engine--</option>";
+  function loadSubmodel(inputSubmodel,inputEngine,year,madeBy,model){
+    if (model == "") {
+      document.getElementById(inputSubmodel).innerHTML = "<option value='empty'>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
       return;
     } else { 
+      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
       if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp = new XMLHttpRequest();
@@ -84,18 +92,18 @@ if (session_status() == PHP_SESSION_NONE) {
       }
       xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-          document.getElementById("submodel").innerHTML = xmlhttp.responseText;
+          document.getElementById(inputSubmodel).innerHTML = xmlhttp.responseText;
         }
       }
       
-      xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/AutopartManage/loadSubmodel/"+year+"/"+madeBy+"/"+model,true);
+      xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/AutopartManage/loadSubmodel/"+escape(year)+"/"+escape(madeBy)+"/"+escape(model),true);
       xmlhttp.send();
     }
   }
   
-  function loadEngine(year,madeBy,model,submodel){
-    if (submodel == "empty") {
-      document.getElementById("engine").innerHTML = "<option value='empty'>--Select a Engine--</option>";
+  function loadEngine(inputEngine,year,madeBy,model,submodel){
+    if (submodel == "") {
+      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
       return;
     } else { 
       if (window.XMLHttpRequest) {
@@ -107,11 +115,33 @@ if (session_status() == PHP_SESSION_NONE) {
       }
       xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-          document.getElementById("engine").innerHTML = xmlhttp.responseText;
+          document.getElementById(inputEngine).innerHTML = xmlhttp.responseText;
         }
       }
       
-      xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/AutopartManage/loadEngine/"+year+"/"+madeBy+"/"+model+"/"+submodel,true);
+      xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/AutopartManage/loadEngine/"+escape(year)+"/"+escape(madeBy)+"/"+escape(model)+"/"+escape(submodel),true);
+      xmlhttp.send();
+    }
+  }
+
+  function loadSubcategory(subcategoryField,category){
+    if (submodel == "") {
+      document.getElementById(subcategoryField).innerHTML = "<option value='empty'>--Select a Subcategory--</option>";
+      return;
+    } else { 
+      if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+      } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          document.getElementById(subcategoryField).innerHTML = xmlhttp.responseText;
+        }
+      }
+      xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/AutopartManage/loadSubcategory/"+escape(category),true);
       xmlhttp.send();
     }
   }
@@ -138,14 +168,11 @@ if (session_status() == PHP_SESSION_NONE) {
       <li class="active"><a href="<?php echo base_url(); ?>" title="home">Home</a></li>
       <li><a href="#">Page 1</a></li>
        <li><a href="#">Page 2</a></li> 
-      <li><a href="#">Page 3</a></li> 
-      <li class="dropdown">
-         <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLog">Login</a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Profile</a></li>
-          <li><a href="#">Logout</a></li>
-        </ul>
-      </li>
+      <li>
+        <form id="postAd" action="<?php echo site_url('AutopartManage/postAd'); ?>" method="post">
+            <button type="submit" id="btnRegister" class="btn btn-success">Post Ad</button>
+        </form>
+      </li> 
     </ul>
 
 
@@ -284,7 +311,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
             <div class="form-group">
               <label for="sel1">Select Vehicle Details</label>
-              <select id="year" name="year" class="form-control" onchange="loadMadeBy(this.value)" title="Select your vehicle year" required>
+              <select id="year" name="year" class="form-control" onchange="loadMadeBy('madeBy','model','submodel','engine',this.value)" title="Select your vehicle year" required>
                 <option value="">--Select a Year--</option>
                 <?php 
                   if($years){ 
@@ -296,22 +323,22 @@ if (session_status() == PHP_SESSION_NONE) {
               </select>
             </div>
             <div class="form-group">
-              <select id="madeBy" name="madeBy" class="form-control" onchange="loadModel(year.value,this.value)" title="Select made by">
+              <select id="madeBy" name="madeBy" class="form-control" onchange="loadModel('model','submodel','engine',year.value,this.value)" title="Select made by" required>
                 <option value="">--Select a Made By--</option>
               </select>
             </div>
             <div class="form-group">
-              <select id="model" name="model" class="form-control" onchange="loadSubmodel(year.value,madeBy.value,this.value)" title="Select model">
+              <select id="model" name="model" class="form-control" onchange="loadSubmodel('submodel','engine',year.value,madeBy.value,this.value)" title="Select model" required>
                 <option value="">--Select a Model--</option>
               </select>
             </div>
             <div class="form-group">
-              <select id="submodel" name="submodel" class="form-control" onchange="loadEngine(year.value,madeBy.value,model.value,this.value)" title="Select submodel">
+              <select id="submodel" name="submodel" class="form-control" onchange="loadEngine('engine',year.value,madeBy.value,model.value,this.value)" title="Select submodel" >
                 <option value="">--Select a Submodel--</option> 
               </select>
             </div>
             <div class="form-group">
-              <select id="engine" class="form-control" name="engine" title="Select engine">
+              <select id="engine" name="engine" class="form-control" title="Select engine" >
                 <option value="">--Select a Engine--</option>
               </select>
             </div>
@@ -352,5 +379,172 @@ if (session_status() == PHP_SESSION_NONE) {
     echo "<script>$('#myModal').modal('show');</script>";
   }
 ?>
+
+  <!--Post ad form Modal -->
+  
+  <div class="modal fade" id="postAdForm" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title ">Enter your autopart details (Step 1)</h4>
+        </div>
+        <div class="modal-body">
+          
+            <form class="form-horizontal" action="<?php echo site_url('AutopartManage/addAutopart'); ?>" method="post"><!--form open-->
+            <fieldset>
+              <div class="form-group">
+                <label for="inputEmail" class="col-lg-3 control-label">Category</label>
+                <div class="col-lg-9">
+                  <select id="category" name="category" style="width:200px" class="form-control" onchange="loadSubcategory('subcategory',this.value)" required>
+                    <option value="">--Select Category--</option>
+                    <?php 
+                      if($categories){ 
+                        foreach ($categories as $c) {
+                          echo "<option>$c</option>";
+                        }
+                      } 
+                    ?>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="subcategory" class="col-lg-3 control-label">Subcategory</label>
+                <div class="col-lg-9">
+                  <select id="subcategory" name="subcategory" style="width:200px" class="form-control" required>
+                    <option value="">--Select Subcategory--</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="description" class="col-lg-3 control-label">Description</label>
+                <div class="col-lg-9">
+                  <textarea class="form-control" rows="3" id="description" name="description" placeholder="Something about item"></textarea>
+                  
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="quantity" class="col-lg-3 control-label">Quantity</label>
+                <div class="col-lg-9">
+                  <input type="number" class="form-control" id="quantity" name="quantity" style="width:80px" value="1" min="1" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="status" class="col-lg-3 control-label">Item Status</label>
+                <div class="col-lg-9">
+                  <select id="status" name="status" style="width:200px" class="form-control" onchange="loadModel(year.value,this.value)" >
+                    <option>Brand New</option>
+                    <option>Used</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="price" class="col-lg-3 control-label">Price</label>
+                <div class="col-lg-9">
+                  <input type="text" class="form-control" id="price" name="price" style="width:200px" placeholder="Rs" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-5 control-label"><input type="checkbox" name="vehicleDetails" data-toggle="collapse" data-target="#vehicleDetails" checked value="1"> Recommend Vehicle Details</label>
+              </div>
+
+            <div id="vehicleDetails" class="collapse in">
+
+              <div class="form-group">
+                <label for="formMadeBy" class="col-lg-5 control-label">Select details as you know</label>
+              </div>
+              
+              <div class="form-group">
+                <label for="formYear" class="col-lg-3 control-label">Year</label>
+                <div class="col-lg-9">
+                  <select id="formYear" name="formYear" style="width:200px" class="form-control" onchange="loadMadeBy('formMadeBy','formModel','formSubmodel','formEngine',this.value)" title="Select made by" required>
+                    <option value="">--Select Year--</option>
+                    <?php 
+                      if($years){ 
+                        foreach ($years as $y) {
+                          echo "<option>$y</option>";
+                        }
+                      } 
+                    ?>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="formMadeBy" class="col-lg-3 control-label">Made By</label>
+                <div class="col-lg-9">
+                  <select id="formMadeBy" name="formMadeBy" style="width:200px" class="form-control" onchange="loadModel('formModel','formSubmodel','formEngine',formYear.value,this.value)" title="Select made by" required>
+                    <option value="">--Select a Made By--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="formModel" class="col-lg-3 control-label">Model</label>
+                <div class="col-lg-9">
+                  <select id="formModel" name="formModel" style="width:200px" class="form-control" onchange="loadSubmodel('formSubmodel','formEngine',formYear.value,formMadeBy.value,this.value)" title="Select model" required>
+                    <option value="">--Select a Model--</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="formSubmodel" class="col-lg-3 control-label">Submodel</label>
+                <div class="col-lg-9">
+                  <select id="formSubmodel" name="formSubmodel" style="width:200px" class="form-control" onchange="loadEngine('formEngine',formYear.value,formMadeBy.value,formModel.value,this.value)" title="Select submodel">
+                    <option value="">--Select a Submodel--</option> 
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="formEngine" class="col-lg-3 control-label">Engine</label>
+                <div class="col-lg-9">
+                  <select id="formEngine" class="form-control" style="width:200px" name="formEngine" title="Select engine">
+                    <option value="">--Select a Engine--</option>
+                  </select>
+                </div>
+              </div>
+
+            </div><!--collapse div close-->
+
+            <div class="form-group">
+                <label for="keyword" class="col-lg-3 control-label">Keywords</label>
+                <div class="col-lg-9">
+                  <textarea class="form-control" rows="3" id="keyword" name="keyword" placeholder="oil pump#1995 townace#unpacking"></textarea>
+                  <span class="help-block">if you can't find category,subcategory and vehical details here.Please add details about autopart seperating '#' as you know.(System will consider these keywords when searching a autopart.)</span>
+                </div>
+              </div>
+
+            <div class="form-group col-lg-5" style="float:right">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Next</button>
+            </div>
+
+            </fieldset>
+          </form><!--form close-->
+          
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <?php 
+  if($headerFormModal){
+    if($headerFormModal['name']=='postAdForm'){
+      echo "<script>$('#$headerFormModal').modal('show');</script>";
+    }    
+  }
+?>
+
 </body>
 </html>

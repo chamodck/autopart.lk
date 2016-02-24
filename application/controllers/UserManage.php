@@ -11,6 +11,8 @@ class UserManage extends CI_Controller {
 			$data['years']=$this->AutopartModel->getYears();
 			$data['loginError']=true;//login unsucess
 			$data['headerAlert']=null;
+			$data['headerFormModal']=null;
+			
 			$this->load->view('header',$data);
 		}
 	}
@@ -39,6 +41,8 @@ class UserManage extends CI_Controller {
 				$data['years']=$this->AutopartModel->getYears();
 				$data['loginError']=false;
 				$data['headerAlert']=array('message'=>"Error occuring while signup!",'header'=>"Error",'type'=>"danger",'size'=>"sm");
+				$data['headerFormModal']=null;
+				
 				$this->load->view('header',$data);
 			}
 		}else{
@@ -46,6 +50,8 @@ class UserManage extends CI_Controller {
 			$data['years']=$this->AutopartModel->getYears();
 			$data['loginError']=false;
 			$data['headerAlert']=null;
+			$data['headerFormModal']=null;
+			
 			$this->load->view('header',$data);
 		}
 	}
@@ -64,11 +70,15 @@ class UserManage extends CI_Controller {
 
 	public function forgotPassword(){
 		$this->form_validation->set_rules('forgotEmail','Email','callback_is_exist[user.email]|valid_email');
+
+		$this->load->model('AutopartModel');
+		$data['years']=$this->AutopartModel->getYears();
+		$data['loginError']=false;
+		$data['headerFormModal']=null;
+
 		if($this->form_validation->run()==true){
-			$this->load->model('AutopartModel');
-			$data['years']=$this->AutopartModel->getYears();
-			$data['loginError']=false;
 			$data['headerAlert']=array('header'=>"Forgot Password",'size'=>"md");
+
 			$verifycode=md5(date("Y.m.d h:i:sa"));
 			$email=$this->input->post('forgotEmail');
 
@@ -89,9 +99,6 @@ class UserManage extends CI_Controller {
 				$data['headerAlert']['type']="danger";
 			}
 		}else{
-			$this->load->model('AutopartModel');
-			$data['years']=$this->AutopartModel->getYears();
-			$data['loginError']=false;
 			$data['headerAlert']=null;
 		}
 		$this->load->view('header',$data);
@@ -147,6 +154,8 @@ class UserManage extends CI_Controller {
 			$data['years']=$this->AutopartModel->getYears();
 			$data['loginError']=false;
 			$data['headerAlert']=array('header'=>"Change Password",'size'=>"sm",'message'=>"Invaid URL,Try again!",'type'=>"danger");
+			$data['headerFormModal']=null;
+			
 			$this->load->view('header',$data);
 		}else{
 			$this->load->model('UserManageModel');
@@ -156,6 +165,8 @@ class UserManage extends CI_Controller {
 				$data['years']=$this->AutopartModel->getYears();
 				$data['loginError']=false;
 				$data['headerAlert']=null;
+				$data['headerFormModal']=null;
+				
 				$this->load->view('header',$data);
 
 				$data1['username']=$username;
@@ -165,6 +176,8 @@ class UserManage extends CI_Controller {
 				$data['years']=$this->AutopartModel->getYears();
 				$data['loginError']=false;
 				$data['headerAlert']=array('header'=>"Change Password",'size'=>"sm",'message'=>"Invaid URL,Try again!",'type'=>"danger");
+				$data['headerFormModal']=null;
+				
 				$this->load->view('header',$data);
 			}
 		}
@@ -185,7 +198,9 @@ class UserManage extends CI_Controller {
 				$data['years']=$this->AutopartModel->getYears();
 				$data['loginError']=false;
 				$data['headerAlert']=array('header'=>"Change Password",'size'=>"md",'message'=>"Something wrong in change password process,Try again!",'type'=>"danger");
+				$data['headerFormModal']=null;
 				$this->load->view('header',$data);
+
 				$data1['username']=$username;
 				$this->load->view('changePassword',$data1);
 			}
@@ -194,6 +209,7 @@ class UserManage extends CI_Controller {
 			$data['years']=$this->AutopartModel->getYears();
 			$data['loginError']=false;
 			$data['headerAlert']=null;
+			$data['headerFormModal']=null;
 			$this->load->view('header',$data);
 
 			$data1['username']=$username;

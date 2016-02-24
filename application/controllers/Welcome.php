@@ -24,7 +24,8 @@ class Welcome extends CI_Controller {
 		$data['years']=$this->AutopartModel->getYears();
 		$data['loginError']=false;
 		$data['headerAlert']=null;
-
+		$data['headerFormModal']=null;
+		
 		$data1['categories']=$this->AutopartModel->getAllCategories();
 		$this->load->view('header',$data);
 		$this->load->view('category',$data1);

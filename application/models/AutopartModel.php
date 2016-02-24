@@ -15,18 +15,14 @@
 			}
 		}
 
-		public function getAllCategories(){
+		public function getCategories(){
 			$query=$this->db->query("SELECT DISTINCT category FROM category");
 			if($query->num_rows()>0){
 				foreach ($query->result() as $row) {
-					$cat[]= $row->category;
+					$categories[] = $row->category;
 				}
-				sort($cat);
-
-				foreach ($cat as $category) {
-					$allset[$category]=$this->getSubcategory($category);
-				}
-				return $allset;
+				sort($categories);
+				return $categories;
 			}else{
 				return null;
 			}
@@ -40,6 +36,94 @@
 			sort($array);
 			return $array;
 		}
-		
+
+		public function getAllCategories(){
+			$cat=$this->getCategories();
+			if($cat){
+				foreach ($cat as $category) {
+					$allset[$category]=$this->getSubcategory($category);
+				}
+				return $allset;
+			}else{
+				return null;
+			}
+		}
+
+		public function getMadeBy($year){
+			$query=$this->db->query("SELECT DISTINCT madeBy FROM vehicle WHERE year='".$year."'");
+			if($query->num_rows()>0){
+				foreach ($query->result() as $row) {
+					$madeBy[] = $row->madeBy;
+				}
+				sort($madeBy);
+				return $madeBy;
+			}else{
+				return null;
+			}
+		}
+
+		public function getModel($year,$madeBy){
+			$query=$this->db->query("SELECT DISTINCT model FROM vehicle WHERE year='".$year."' AND madeBy='".$madeBy."'");
+			if($query->num_rows()>0){
+				foreach ($query->result() as $row) {
+					$model[] = $row->model;
+				}
+				sort($model);
+				return $model;
+			}else{
+				return null;
+			}
+		}
+
+		public function getSubmodel($year,$madeBy,$model){
+			$query = $this->db->query("SELECT DISTINCT submodel FROM vehicle WHERE year='".$year."' AND madeBy='".$madeBy."' AND model='".$model."'");
+			if($query->num_rows()>0){
+				foreach ($query->result() as $row) {
+					$submodel[] = $row->submodel;
+				}
+				sort($submodel);
+				return $submodel;
+			}else{
+				return null;
+			}
+		}
+
+		public function getEngine($year,$madeBy,$model,$submodel){
+			$query = $this->db->query("SELECT DISTINCT engine FROM vehicle WHERE year='".$year."' AND madeBy='".$madeBy."' AND model='".$model."' AND submodel='".$submodel."'");
+			if($query->num_rows()>0){
+				foreach ($query->result() as $row) {
+					$engine[] = $row->engine;
+				}
+				sort($engine);
+				return $engine;
+			}else{
+				return null;
+			}
+		}
+
+		public function setNewAutopart(){
+			$username=$this->session->userdata('username');
+			$category=$this->input->post('category');
+			$subcategory=$this->input->post('subcategory');
+			$description=$this->input->post('description');
+			$quantity=$this->input->post('quantity');
+			$status=$this->input->post('status');
+			$price=$this->input->post('price');
+			$keyword=$this->input->post('keyword');
+
+			$formYear=$this->input->post('formYear');
+			$formMadeBy=$this->input->post('formMadeBy');
+			$fromModel=$this->input->post('fromModel');
+			$formSubmodel=$this->input->post('formSubmodel');
+			$formEngine=$this->input->post('formEngine');
+
+			$query=$this->db->query("INSERT INTO part VALUES(null,'$username','$category','$subcategory','$formYear','$formMadeBy','$fromModel','$formSubmodel','$formEngine',$quantity,'$description','$status',$price,'$keyword')");
+			if($query){
+				$query=$this->db->query("SELECT MAX(partID) FROM part WHERE username='$username'");
+				return $query->partID;
+			}else{
+				return null;
+			}
+		}
 	}
 ?>
