@@ -82,8 +82,15 @@ class AutopartManage extends CI_Controller {
 	}	
 
 	public function addAutopart(){
-		$this->form_validation->set_rules('quantity','Quantity','greater_than[0]');
 		$this->form_validation->set_rules('price','Price','greater_than[0]');
+		$this->form_validation->set_rules('description','Description','max_length[500]');
+		$this->form_validation->set_rules('keyword','Keyword','max_length[500]');
+
+		if($this->input->post('vehicleDetails')){
+			$this->form_validation->set_rules('formYear','Year','required');
+			$this->form_validation->set_rules('formMadeBy','Made By','required');
+			$this->form_validation->set_rules('formModel','Model','required');
+		}
 
 		$this->load->model('AutopartModel');
 		$data['years']=$this->AutopartModel->getYears();
@@ -96,11 +103,14 @@ class AutopartManage extends CI_Controller {
 			$result=$this->AutopartModel->setNewAutopart();
 			if($result){
 				$data['headerAlert']=null;
-				$data['headerFormModal']=array('name'=>'photoForm','partID'=>$result);
+				$data['headerFormModal']=array('name'=>'photoFormModal','partID'=>$result,'photonumber'=>0);
 			}else{
-				$data['headerAlert']=array('message'=>"Something wrong in Post Ad prosess.Try again!",'header'=>"Error",'type'=>"danger",'size'=>"sm");
+				$data['headerAlert']=array('message'=>"Something wrong in Post Ad prosess.Try again!",'header'=>"Error",'type'=>"danger",'size'=>"md");
 				$data['headerFormModal']=null;
 			}
+			$this->load->view('header',$data);
+			$this->load->view('category',$data1);
+			$this->load->view('footer');
 		}else{			
 			$data['headerAlert']=null;
 			$data['headerFormModal']=array('name'=>'postAdForm');
@@ -108,6 +118,39 @@ class AutopartManage extends CI_Controller {
 			$this->load->view('header',$data);
 			$this->load->view('category',$data1);
 			$this->load->view('footer');
+		}
+	}
+
+	public function uploadPhoto($partID,$photonumber){
+		$photoname=$partID.'-'.$photonumber;
+		$this->load->helper(array('form','url'));
+
+		$config['upload_path']='./uploads/autopartphotos/'.$partID.'/';
+		$config['allowed_types']='jpg|png';
+		//$config['max_size']='100';
+		//$config['max_width']='1024';
+		//$config['max_height']='768';
+		$config['file_name']=$photoname;
+		$this->load->library('upload',$config);
+
+		if($this->upload->do_upload()){
+			//$message=$this->upload->data();
+			$this->load->model('AutopartModel');
+			$this->AutopartModel->photoNumberIncrement($partID);
+
+			$data['years']=$this->AutopartModel->getYears();
+			$data['loginError']=false;
+			$data['headerAlert']=null;
+			$data['headerFormModal']=array('name'=>'photoFormModal','partID'=>$partID,'photonumber'=>$photonumber+1,'message'=>'success');
+			$this->load->view('header',$data);
+		}else{
+			$error=$this->upload->display_errors();
+			$this->load->model('AutopartModel');
+			$data['years']=$this->AutopartModel->getYears();
+			$data['loginError']=false;
+			$data['headerAlert']=null;
+			$data['headerFormModal']=array('name'=>'photoFormModal','partID'=>$partID,'photonumber'=>$photonumber,'message'=>$error);
+			$this->load->view('header',$data);
 		}
 	}
 }

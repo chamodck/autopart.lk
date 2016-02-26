@@ -1,9 +1,3 @@
-<?php 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-?>
-
 <!DOCTYPE html>
 <html>
 
@@ -18,16 +12,16 @@ if (session_status() == PHP_SESSION_NONE) {
 <script type="text/javascript">
   function loadMadeBy(inputMadeBy,inputModel,inputSubmodel,inputEngine,year) {
     if (year == "") {
-      document.getElementById(inputMadeBy).innerHTML= "<option value='empty'>--Select a Made By--</option>";
-      document.getElementById(inputModel).innerHTML="<option value='empty'>--Select a Model--</option>";
-      document.getElementById(inputSubmodel).innerHTML= "<option value='empty'>--Select a Submodel--</option>";
-      document.getElementById(inputEngine).innerHTML= "<option value='empty'>--Select a Engine--</option>";
+      document.getElementById(inputMadeBy).innerHTML= "<option value=''>--Select a Made By--</option>";
+      document.getElementById(inputModel).innerHTML="<option value=''>--Select a Model--</option>";
+      document.getElementById(inputSubmodel).innerHTML= "<option value=''>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML= "<option value=''>--Select a Engine--</option>";
 
       return;
     } else { 
-      document.getElementById(inputModel).innerHTML="<option value='empty'>--Select a Model--</option>";
-      document.getElementById(inputSubmodel).innerHTML= "<option value='empty'>--Select a Submodel--</option>";
-      document.getElementById(inputEngine).innerHTML= "<option value='empty'>--Select a Engine--</option>";
+      document.getElementById(inputModel).innerHTML="<option value=''>--Select a Model--</option>";
+      document.getElementById(inputSubmodel).innerHTML= "<option value=''>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML= "<option value=''>--Select a Engine--</option>";
 
       if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -51,13 +45,13 @@ if (session_status() == PHP_SESSION_NONE) {
 
   function loadModel(inputModel,inputSubmodel,inputEngine,year,madeBy) {
     if (madeBy == "") {
-      document.getElementById(inputModel).innerHTML = "<option value='empty'>--Select a Model--</option>";
-      document.getElementById(inputSubmodel).innerHTML = "<option value='empty'>--Select a Submodel--</option>";
-      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
+      document.getElementById(inputModel).innerHTML = "<option value=''>--Select a Model--</option>";
+      document.getElementById(inputSubmodel).innerHTML = "<option value=''>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML = "<option value=''>--Select a Engine--</option>";
       return;
     } else { 
-      document.getElementById(inputSubmodel).innerHTML = "<option value='empty'>--Select a Submodel--</option>";
-      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
+      document.getElementById(inputSubmodel).innerHTML = "<option value=''>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML = "<option value=''>--Select a Engine--</option>";
       if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp = new XMLHttpRequest();
@@ -78,11 +72,11 @@ if (session_status() == PHP_SESSION_NONE) {
 
   function loadSubmodel(inputSubmodel,inputEngine,year,madeBy,model){
     if (model == "") {
-      document.getElementById(inputSubmodel).innerHTML = "<option value='empty'>--Select a Submodel--</option>";
-      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
+      document.getElementById(inputSubmodel).innerHTML = "<option value=''>--Select a Submodel--</option>";
+      document.getElementById(inputEngine).innerHTML = "<option value=''>--Select a Engine--</option>";
       return;
     } else { 
-      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
+      document.getElementById(inputEngine).innerHTML = "<option value=''>--Select a Engine--</option>";
       if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp = new XMLHttpRequest();
@@ -103,7 +97,7 @@ if (session_status() == PHP_SESSION_NONE) {
   
   function loadEngine(inputEngine,year,madeBy,model,submodel){
     if (submodel == "") {
-      document.getElementById(inputEngine).innerHTML = "<option value='empty'>--Select a Engine--</option>";
+      document.getElementById(inputEngine).innerHTML = "<option value=''>--Select a Engine--</option>";
       return;
     } else { 
       if (window.XMLHttpRequest) {
@@ -126,7 +120,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
   function loadSubcategory(subcategoryField,category){
     if (submodel == "") {
-      document.getElementById(subcategoryField).innerHTML = "<option value='empty'>--Select a Subcategory--</option>";
+      document.getElementById(subcategoryField).innerHTML = "<option value=''>--Select a Subcategory--</option>";
       return;
     } else { 
       if (window.XMLHttpRequest) {
@@ -183,7 +177,7 @@ if (session_status() == PHP_SESSION_NONE) {
           $username=$this->session->userdata('username'); 
       ?>
           <li class="dropdown" id="menuLogin">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin"><img src="images/profile1.png" class="profile-image img-circle"> <?php echo $username; ?></a>
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin"><img src="<?php echo base_url();?>images/profile1.png" class="profile-image img-circle"> <?php echo $username; ?></a>
               <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="#" ><i class="glyphicon glyphicon-user"></i> Profile</a></li>
                 
@@ -422,8 +416,7 @@ if (session_status() == PHP_SESSION_NONE) {
               <div class="form-group">
                 <label for="description" class="col-lg-3 control-label">Description</label>
                 <div class="col-lg-9">
-                  <textarea class="form-control" rows="3" id="description" name="description" placeholder="Something about item"></textarea>
-                  
+                  <textarea class="form-control" rows="3" id="description" name="description" placeholder="Something about item"><?=set_value('description')?></textarea>
                 </div>
               </div>
 
@@ -437,7 +430,7 @@ if (session_status() == PHP_SESSION_NONE) {
               <div class="form-group">
                 <label for="status" class="col-lg-3 control-label">Item Status</label>
                 <div class="col-lg-9">
-                  <select id="status" name="status" style="width:200px" class="form-control" onchange="loadModel(year.value,this.value)" >
+                  <select id="status" name="status" style="width:200px" class="form-control">
                     <option>Brand New</option>
                     <option>Used</option>
                   </select>
@@ -448,6 +441,7 @@ if (session_status() == PHP_SESSION_NONE) {
                 <label for="price" class="col-lg-3 control-label">Price</label>
                 <div class="col-lg-9">
                   <input type="text" class="form-control" id="price" name="price" style="width:200px" placeholder="Rs" required>
+                  <?php if(form_error('price')){echo "<label class='bg-danger text-danger'>"; echo form_error('price'); echo "</label>";}?>
                 </div>
               </div>
 
@@ -462,9 +456,9 @@ if (session_status() == PHP_SESSION_NONE) {
               </div>
               
               <div class="form-group">
-                <label for="formYear" class="col-lg-3 control-label">Year</label>
+                <label for="formYear" class="col-lg-3 control-label">Year  <label class="text-danger">*</label></label>
                 <div class="col-lg-9">
-                  <select id="formYear" name="formYear" style="width:200px" class="form-control" onchange="loadMadeBy('formMadeBy','formModel','formSubmodel','formEngine',this.value)" title="Select made by" required>
+                  <select id="formYear" name="formYear" style="width:200px" class="form-control" onchange="loadMadeBy('formMadeBy','formModel','formSubmodel','formEngine',this.value)" title="Select made by" >
                     <option value="">--Select Year--</option>
                     <?php 
                       if($years){ 
@@ -474,24 +468,27 @@ if (session_status() == PHP_SESSION_NONE) {
                       } 
                     ?>
                   </select>
+                  <?php if(form_error('formYear')){echo "<label class='bg-danger text-danger'>"; echo form_error('formYear'); echo "</label>";}?>
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="formMadeBy" class="col-lg-3 control-label">Made By</label>
+                <label for="formMadeBy" class="col-lg-3 control-label">Made By  <label class="text-danger">*</label></label>
                 <div class="col-lg-9">
-                  <select id="formMadeBy" name="formMadeBy" style="width:200px" class="form-control" onchange="loadModel('formModel','formSubmodel','formEngine',formYear.value,this.value)" title="Select made by" required>
+                  <select id="formMadeBy" name="formMadeBy" style="width:200px" class="form-control" onchange="loadModel('formModel','formSubmodel','formEngine',formYear.value,this.value)" title="Select made by" >
                     <option value="">--Select a Made By--</option>
                   </select>
+                  <?php if(form_error('formMadeBy')){echo "<label class='bg-danger text-danger'>"; echo form_error('formMadeBy'); echo "</label>";}?>
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="formModel" class="col-lg-3 control-label">Model</label>
+                <label for="formModel" class="col-lg-3 control-label">Model  <label class="text-danger">*</label></label>
                 <div class="col-lg-9">
-                  <select id="formModel" name="formModel" style="width:200px" class="form-control" onchange="loadSubmodel('formSubmodel','formEngine',formYear.value,formMadeBy.value,this.value)" title="Select model" required>
+                  <select id="formModel" name="formModel" style="width:200px" class="form-control" onchange="loadSubmodel('formSubmodel','formEngine',formYear.value,formMadeBy.value,this.value)" title="Select model" >
                     <option value="">--Select a Model--</option>
                   </select>
+                  <?php if(form_error('formModel')){echo "<label class='bg-danger text-danger'>"; echo form_error('formModel'); echo "</label>";}?>
                 </div>
               </div>
 
@@ -518,7 +515,7 @@ if (session_status() == PHP_SESSION_NONE) {
             <div class="form-group">
                 <label for="keyword" class="col-lg-3 control-label">Keywords</label>
                 <div class="col-lg-9">
-                  <textarea class="form-control" rows="3" id="keyword" name="keyword" placeholder="oil pump#1995 townace#unpacking"></textarea>
+                  <textarea class="form-control" rows="3" id="keyword" name="keyword" placeholder="oil pump#1995 townace#unpacking"><?=set_value('keyword')?></textarea>
                   <span class="help-block">if you can't find category,subcategory and vehical details here.Please add details about autopart seperating '#' as you know.(System will consider these keywords when searching a autopart.)</span>
                 </div>
               </div>
@@ -541,10 +538,62 @@ if (session_status() == PHP_SESSION_NONE) {
   <?php 
   if($headerFormModal){
     if($headerFormModal['name']=='postAdForm'){
-      echo "<script>$('#$headerFormModal').modal('show');</script>";
+      echo "<script>$('#postAdForm').modal({backdrop:'static',keyboard:false});</script>";
+      echo "<script>$('#postAdForm').modal('show');</script>";
     }    
   }
 ?>
 
+<!-- photo form modal-->
+
+<div class="modal fade" id="photoFormModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add autopart photos (Step 2)</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            Upload your photo number <?=$headerFormModal['photonumber']+1;?>
+          </div>
+
+          <?php echo form_open_multipart('AutopartManage/uploadPhoto/'.$headerFormModal['partID'].'/'.$headerFormModal['photonumber']); ?>
+            <div class="form-group">
+              <input type="file" name="userfile" accept="image/*" multiple>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+          </form>
+          <div class="form-group"> 
+            <?php if($headerFormModal['photonumber']!=0){
+              if($headerFormModal['message']=='success'){
+                echo "Note :<label class='bg-success text-success'>Photo number ".$headerFormModal['photonumber']." uploaded.</label>";
+              }else{
+                echo "Note :<label class='bg-danger text-danger'>".$headerFormModal['message']."</label>";
+              }
+            }
+            ?>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Finish</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+<?php 
+  if($headerFormModal){
+    if($headerFormModal['name']=='photoFormModal'){
+      echo "<script>$('#photoFormModal').modal({backdrop:'static',keyboard:false});</script>";
+      echo "<script>$('#photoFormModal').modal('show');</script>";
+    }
+  }
+?>
 </body>
 </html>

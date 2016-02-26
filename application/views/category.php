@@ -51,7 +51,7 @@
         ?>
             <div class="col-md-4 portfolio-item">
                 <a href="#">
-                    <img class="img-responsive" src="images/category/<?=$key?>.png" alt="">
+                    <img class="img-responsive" src="<?php echo base_url();?>images/category/<?=$key?>.png" alt="">
                 </a>
                 <h3>
                     <a href="#"><?=$key?></a>

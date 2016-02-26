@@ -91,11 +91,11 @@ class UserManage extends CI_Controller {
 					$data['headerAlert']['message']="Password change link was sent to your email.";
 					$data['headerAlert']['type']="success";
 				}else{
-					$data['headerAlert']['message']='Some thing wrong in password change prosess.Try again!';
+					$data['headerAlert']['message']='Something wrong in password change prosess.Try again!';
 					$data['headerAlert']['type']="danger";
 				}
 			}else{
-				$data['headerAlert']['message']='Some thing wrong in password change prosess.Try again!';
+				$data['headerAlert']['message']='Something wrong in password change prosess.Try again!';
 				$data['headerAlert']['type']="danger";
 			}
 		}else{

@@ -117,13 +117,28 @@
 			$formSubmodel=$this->input->post('formSubmodel');
 			$formEngine=$this->input->post('formEngine');
 
-			$query=$this->db->query("INSERT INTO part VALUES(null,'$username','$category','$subcategory','$formYear','$formMadeBy','$fromModel','$formSubmodel','$formEngine',$quantity,'$description','$status',$price,'$keyword')");
+			$query=$this->db->query("INSERT INTO part VALUES(null,'$username','$category','$subcategory','$formYear','$formMadeBy','$fromModel','$formSubmodel','$formEngine',$quantity,'$description','$status',$price,'$keyword',0)");
 			if($query){
-				$query=$this->db->query("SELECT MAX(partID) FROM part WHERE username='$username'");
-				return $query->partID;
+				$this->db->select_max('partID');
+				//$this->db->select('numofphotos');
+				$this->db->where("username='$username'");
+				$query=$this->db->get('part');
+
+				foreach ($query->result() as $row) {
+					$partID=$row->partID;
+					//$array['numofphotos']=$row->numofphotos;
+				}
+				mkdir('./uploads/autopartphotos/'.$partID.'/',0777);
+				return $partID;
+				
 			}else{
 				return null;
 			}
+		}
+
+		public function photoNumberIncrement($partID){
+			$query=$this->db->query("UPDATE part SET numofphotos=numofphotos+1 WHERE partID=$partID");
+
 		}
 	}
 ?>
