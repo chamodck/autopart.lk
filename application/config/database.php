@@ -75,7 +75,6 @@ $query_builder = TRUE;
 $active_record=TRUE;
 
 $db['default'] = array(
-	 
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',

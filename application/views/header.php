@@ -159,7 +159,6 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
-      <li class="active"><a href="<?php echo base_url(); ?>" title="home">Home</a></li>
       <li><a href="#">Page 1</a></li>
        <li><a href="#">Page 2</a></li> 
       <li>
@@ -286,9 +285,9 @@
       </ul>
 
     <div class="navbar-right col-md-3 col-sm-3">
-      <form class="navbar-form" role="search">
+      <form class="navbar-form" action="<?=site_url('AutopartManage/search/normal/search'); ?>" method="post" role="search">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search(ex:mirror)" name="srch-term" id="srch-term">
+            <input type="text" class="form-control" placeholder="Search(ex:mirror)" name="search" id="search" title="Search any autopart" required>
             <div class="input-group-btn">
                 <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
             </div>
@@ -301,7 +300,7 @@
    <li class="dropdown" id="searchVehicle">
       <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="navSearchVehicle">Search by Vehicle <span class="caret"></span></button>
         <div class="dropdown-menu" style="padding:15px; width:200px;">
-          <?php echo form_open('usermanage/login'); ?>
+          <?php echo form_open('AutopartManage/search/vehicle/search'); ?>
 
             <div class="form-group">
               <label for="sel1">Select Vehicle Details</label>
@@ -317,12 +316,12 @@
               </select>
             </div>
             <div class="form-group">
-              <select id="madeBy" name="madeBy" class="form-control" onchange="loadModel('model','submodel','engine',year.value,this.value)" title="Select made by" required>
+              <select id="madeBy" name="madeBy" class="form-control" onchange="loadModel('model','submodel','engine',year.value,this.value)" title="Select made by" >
                 <option value="">--Select a Made By--</option>
               </select>
             </div>
             <div class="form-group">
-              <select id="model" name="model" class="form-control" onchange="loadSubmodel('submodel','engine',year.value,madeBy.value,this.value)" title="Select model" required>
+              <select id="model" name="model" class="form-control" onchange="loadSubmodel('submodel','engine',year.value,madeBy.value,this.value)" title="Select model" >
                 <option value="">--Select a Model--</option>
               </select>
             </div>
@@ -389,6 +388,14 @@
           
             <form class="form-horizontal" action="<?php echo site_url('AutopartManage/addAutopart'); ?>" method="post"><!--form open-->
             <fieldset>
+
+              <div class="form-group">
+                <label for="title" class="col-lg-3 control-label">Ad Title</label>
+                <div class="col-lg-9">
+                  <input type="text" class="form-control" id="title" name="title" placeholder="Advertisement title" title="Enter Advertisement title" required>
+                </div>
+              </div>
+
               <div class="form-group">
                 <label for="inputEmail" class="col-lg-3 control-label">Category</label>
                 <div class="col-lg-9">

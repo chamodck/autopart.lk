@@ -8,25 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <!-- Bootstrap Core CSS -->
-    <link href="<?php echo base_url();?>css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="<?php echo base_url();?>css/3-col-portfolio.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- jQuery -->
-    <script src="<?php echo base_url();?>script/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="<?php echo base_url();?>script/bootstrap.min.js"></script>
+    
+    <link href="<?php echo base_url();?>css/bootstrap-simplex-theme.css" rel="stylesheet" type="text/css">
+    <script src="<?php echo site_url();?>script/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script src="<?php echo base_url();?>script/bootstrap.min.js" type="text/javascript"></script>
 </head>
 
 <body >
@@ -34,12 +19,6 @@
     <!-- Page Content -->
     <div class="container">
 
-        <!-- Page Header -->
-        <div class="row">
-            <div class="col-lg-12 col-sm-12">
-                <h1 class="page-header">Categories</h1>
-            </div>
-        </div>
         <!-- /.row -->
         <?php
         $count=0;
@@ -50,15 +29,17 @@
             }
         ?>
             <div class="col-md-4 portfolio-item">
-                <a href="#">
+                <a href="<?=site_url('AutopartManage/search/category/'.$key); ?>">
                     <img class="img-responsive" src="<?php echo base_url();?>images/category/<?=$key?>.png" alt="">
                 </a>
                 <h3>
-                    <a href="#"><?=$key?></a>
+                    <a href="<?=site_url('AutopartManage/search/category/'.$key); ?>"><?=$key?></a>
                     <div class="dropdown" style="float:right">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="navSearchVehicle">Subcategories <span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            <?php foreach ($value as $sub) {echo "<li><a href='#' >$sub</a></li>";}?>
+                            <?php foreach ($value as $sub) { ?>
+                                <li><a href="<?=site_url('AutopartManage/search/subcategory/'.$sub); ?>"><?=$sub?></a></li>
+                            <?php } ?>
                         </ul>
                     </div>
                 </h3>

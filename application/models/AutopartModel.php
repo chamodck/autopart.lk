@@ -103,21 +103,36 @@
 
 		public function setNewAutopart(){
 			$username=$this->session->userdata('username');
+			$title=$this->input->post('title');
 			$category=$this->input->post('category');
 			$subcategory=$this->input->post('subcategory');
 			$description=$this->input->post('description');
 			$quantity=$this->input->post('quantity');
 			$status=$this->input->post('status');
 			$price=$this->input->post('price');
-			$keyword=$this->input->post('keyword');
-
 			$formYear=$this->input->post('formYear');
 			$formMadeBy=$this->input->post('formMadeBy');
-			$fromModel=$this->input->post('fromModel');
+			$formModel=$this->input->post('formModel');
 			$formSubmodel=$this->input->post('formSubmodel');
 			$formEngine=$this->input->post('formEngine');
 
-			$query=$this->db->query("INSERT INTO part VALUES(null,'$username','$category','$subcategory','$formYear','$formMadeBy','$fromModel','$formSubmodel','$formEngine',$quantity,'$description','$status',$price,'$keyword',0)");
+			$keyword=str_replace(' ','#',trim($title)).'#'.str_replace(' ','',$category).'#'.str_replace(' ','',$subcategory);
+			if($this->input->post('vehicleDetails')){
+				$keyword.='#'.str_replace(' ','',$formYear).'#'.str_replace(' ','',$formMadeBy).'#'.str_replace(' ','',$formModel);
+				if($formSubmodel){
+					$keyword.='#'.str_replace(' ','',$formSubmodel);
+				}
+				if($formEngine){
+					$keyword.='#'.str_replace(' ','',$formEngine);
+				}
+			}
+			if($this->input->post('keyword')){
+				$keyword.='#'.str_replace(' ','',trim($this->input->post('keyword')));
+			}
+
+			
+			$d=date("Y-m-d G:i:s");
+			$query=$this->db->query("INSERT INTO part VALUES(null,'$d','$username','$title','$category','$subcategory','$formYear','$formMadeBy','$formModel','$formSubmodel','$formEngine',$quantity,'$description','$status',$price,'$keyword',0,0)");
 			if($query){
 				$this->db->select_max('partID');
 				//$this->db->select('numofphotos');
@@ -138,7 +153,64 @@
 
 		public function photoNumberIncrement($partID){
 			$query=$this->db->query("UPDATE part SET numofphotos=numofphotos+1 WHERE partID=$partID");
+		}
 
+		public function getResults($type,$word){
+			$word=urldecode($word);
+
+			if($type=='normal'){
+				$str=$this->input->post('search');
+				$str=trim($str);
+				$array=explode(" ",$str);
+
+				$q='';$count=0;
+				foreach ($array as $keyword) {
+					if($count==0){
+						$q.="keyword LIKE '%".$keyword."%'";
+					}else{
+						$q.=" OR keyword LIKE '%".$keyword."%'";
+					}
+					$count++;
+				}
+
+				$query=$this->db->query("SELECT * FROM part WHERE(".$q.")");
+				$array=array($query,$this->input->post('search'));
+				return $array;
+			}elseif ($type=='category' | $type=='subcategory') {
+				$query=$this->db->query("SELECT * FROM part WHERE keyword LIKE '%".str_replace(' ','',$word)."%'");
+				$array=array($query,$word);
+				return $array;
+			}else{
+				$year=$this->input->post('year');
+				$madeBy=$this->input->post('madeBy');
+				$model=$this->input->post('model');
+				$submodel=$this->input->post('submodel');
+				$engine=$this->input->post('engine');
+
+				$q="keyword LIKE '%".$year."%'";
+				//$word='';
+				$word=$year;
+				if($madeBy){
+					$q.=" AND keyword LIKE '%".$madeBy."%'";
+					$word.='-'.$madeBy;
+				}
+				if($model){
+					$q.=" AND keyword LIKE '%".$model."%'";
+					$word.='-'.$model;
+				}
+				if($submodel){
+					$q.=" AND keyword LIKE '%".$submodel."%'";
+					$word.='-'.$submodel;
+				}
+				if($engine){
+					$q.=" AND keyword LIKE '%".$engine."%'";
+					$word.='-'.$engine;
+				}
+
+				$query=$this->db->query("SELECT * FROM part WHERE(".$q.")");
+				$array=array($query,$word);
+				return $array;
+			}
 		}
 	}
 ?>

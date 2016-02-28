@@ -82,6 +82,7 @@ class AutopartManage extends CI_Controller {
 	}	
 
 	public function addAutopart(){
+		$this->form_validation->set_rules('title','Title','max_length[100]');
 		$this->form_validation->set_rules('price','Price','greater_than[0]');
 		$this->form_validation->set_rules('description','Description','max_length[500]');
 		$this->form_validation->set_rules('keyword','Keyword','max_length[500]');
@@ -137,7 +138,6 @@ class AutopartManage extends CI_Controller {
 			//$message=$this->upload->data();
 			$this->load->model('AutopartModel');
 			$this->AutopartModel->photoNumberIncrement($partID);
-
 			$data['years']=$this->AutopartModel->getYears();
 			$data['loginError']=false;
 			$data['headerAlert']=null;
@@ -152,6 +152,21 @@ class AutopartManage extends CI_Controller {
 			$data['headerFormModal']=array('name'=>'photoFormModal','partID'=>$partID,'photonumber'=>$photonumber,'message'=>$error);
 			$this->load->view('header',$data);
 		}
+	}
+
+	public function search($type,$word){
+		$this->load->model('AutopartModel');
+		$result=$this->AutopartModel->getResults($type,urldecode($word));
+		$data1['resultset']=$result[0];
+		$data1['keyword']=$result[1];
+
+		$data['years']=$this->AutopartModel->getYears();
+		$data['loginError']=false;
+		$data['headerAlert']=null;
+		$data['headerFormModal']=null;
+		$this->load->view('header',$data);
+		$this->load->view('searchresult',$data1);
+		$this->load->view('footer');
 	}
 }
 ?>
