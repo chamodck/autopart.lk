@@ -171,6 +171,7 @@ class UserManage extends CI_Controller {
 
 				$data1['username']=$username;
 				$this->load->view('changePassword',$data1);
+				$this->load->view('footer');
 			}else{
 				$this->load->model('AutopartModel');
 				$data['years']=$this->AutopartModel->getYears();
@@ -179,6 +180,7 @@ class UserManage extends CI_Controller {
 				$data['headerFormModal']=null;
 				
 				$this->load->view('header',$data);
+				$this->load->view('footer');
 			}
 		}
 	}
@@ -214,6 +216,7 @@ class UserManage extends CI_Controller {
 
 			$data1['username']=$username;
 			$this->load->view('changePassword',$data1);
+			$this->load->view('footer');
 		}
 	}
 }

@@ -9,6 +9,18 @@
 <script src="<?php echo base_url();?>script/jquery-2.1.4.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>script/bootstrap.min.js" type="text/javascript"></script>
 
+<style type="text/css"> 
+body {
+    padding-bottom: 40px;
+    padding-top: 60px;
+}
+
+.sidebar-nav-fixed {
+    width:20%;
+}
+
+</style>
+
 <script type="text/javascript">
   function loadMadeBy(inputMadeBy,inputModel,inputSubmodel,inputEngine,year) {
     if (year == "") {
@@ -145,7 +157,7 @@
 
 <body>
 
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
+<div class="navbar navbar-fixed-top navbar-default" >
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -285,7 +297,7 @@
       </ul>
 
     <div class="navbar-right col-md-3 col-sm-3">
-      <form class="navbar-form" action="<?=site_url('AutopartManage/search/normal/search'); ?>" method="post" role="search">
+      <form class="navbar-form" action="<?=site_url('AutopartManage/search/normal/search/1'); ?>" method="post" role="search">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search(ex:mirror)" name="search" id="search" title="Search any autopart" required>
             <div class="input-group-btn">
@@ -300,7 +312,7 @@
    <li class="dropdown" id="searchVehicle">
       <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="navSearchVehicle">Search by Vehicle <span class="caret"></span></button>
         <div class="dropdown-menu" style="padding:15px; width:200px;">
-          <?php echo form_open('AutopartManage/search/vehicle/search'); ?>
+          <?php echo form_open('AutopartManage/search/vehicle/search/1'); ?>
 
             <div class="form-group">
               <label for="sel1">Select Vehicle Details</label>
@@ -345,7 +357,7 @@
  
 </div>
 </div>
-</nav>
+</div>
 
 <!-- header message-->
 
@@ -522,7 +534,7 @@
             <div class="form-group">
                 <label for="keyword" class="col-lg-3 control-label">Keywords</label>
                 <div class="col-lg-9">
-                  <textarea class="form-control" rows="3" id="keyword" name="keyword" placeholder="oil pump#1995 townace#unpacking"><?=set_value('keyword')?></textarea>
+                  <input type="text" class="form-control" style="width:200px" id="keyword" name="keyword" placeholder="oil pump#1995 townace#unpacking"><?=set_value('keyword')?>
                   <span class="help-block">if you can't find category,subcategory and vehical details here.Please add details about autopart seperating '#' as you know.(System will consider these keywords when searching a autopart.)</span>
                 </div>
               </div>

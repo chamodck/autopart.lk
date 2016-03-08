@@ -154,11 +154,11 @@ class AutopartManage extends CI_Controller {
 		}
 	}
 
-	public function search($type,$word){
+	public function search($type,$word,$page){
 		$this->load->model('AutopartModel');
-		$result=$this->AutopartModel->getResults($type,urldecode($word));
-		$data1['resultset']=$result[0];
-		$data1['keyword']=$result[1];
+		$result=$this->AutopartModel->getResults($type,$word,$page);
+		$data1['searchresult']=$result['searchresult'];
+		$data1['related']=$result['related'];
 
 		$data['years']=$this->AutopartModel->getYears();
 		$data['loginError']=false;

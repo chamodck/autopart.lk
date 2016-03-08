@@ -46,7 +46,7 @@
 					<a href="#">Contact</a>
 				</p>
 
-				<p>autopart.lk &copy; 2015</p>
+				<p>&copy; autopart.lk 2016</p>
 			</div>
 
 		</footer>

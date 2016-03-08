@@ -29,16 +29,16 @@
             }
         ?>
             <div class="col-md-4 portfolio-item">
-                <a href="<?=site_url('AutopartManage/search/category/'.$key); ?>">
+                <a href="<?=site_url('AutopartManage/search/category/'.$key.'/1'); ?>">
                     <img class="img-responsive" src="<?php echo base_url();?>images/category/<?=$key?>.png" alt="">
                 </a>
                 <h3>
-                    <a href="<?=site_url('AutopartManage/search/category/'.$key); ?>"><?=$key?></a>
+                    <a href="<?=site_url('AutopartManage/search/category/'.$key.'/1'); ?>"><?=$key?></a>
                     <div class="dropdown" style="float:right">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="navSearchVehicle">Subcategories <span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <?php foreach ($value as $sub) { ?>
-                                <li><a href="<?=site_url('AutopartManage/search/subcategory/'.$sub); ?>"><?=$sub?></a></li>
+                                <li><a href="<?=site_url('AutopartManage/search/subcategory/'.$sub.'/1'); ?>"><?=$sub?></a></li>
                             <?php } ?>
                         </ul>
                     </div>

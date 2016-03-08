@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2016 at 07:44 PM
+-- Generation Time: Mar 08, 2016 at 10:45 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -79,7 +79,7 @@ INSERT INTO `category` (`subCategory`, `category`) VALUES
 ('Exhaust Tips', 'Performance'),
 ('Fender Flares', 'Exterior'),
 ('Fenders', 'Replacement'),
-('Floor Liners/Mats', 'Interior'),
+('Floor Liners and Mats', 'Interior'),
 ('Fuel Injection Kits', 'Performance'),
 ('Fuel Injection Pump', 'Performance'),
 ('Gas Tanks', 'Replacement'),
@@ -129,6 +129,29 @@ INSERT INTO `category` (`subCategory`, `category`) VALUES
 ('Wheel Covers', 'Wheels and Tires'),
 ('Wheel Hub', 'Wheels and Tires'),
 ('Wheel Locks', 'Wheels and Tires');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `chats`
+--
+
+CREATE TABLE IF NOT EXISTS `chats` (
+  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+  `message` text NOT NULL,
+  `time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `chats`
+--
+
+INSERT INTO `chats` (`id`, `message`, `time`) VALUES
+(1, '', 1456913321),
+(2, 'cdv', 1456913324),
+(3, 'vd', 1456913330),
+(4, 'vdvdv fg fdg df', 1456913340);
 
 -- --------------------------------------------------------
 
@@ -208,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `part` (
   KEY `userID` (`username`),
   KEY `subCategory` (`subcategory`),
   KEY `category` (`category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=118 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=121 ;
 
 --
 -- Dumping data for table `part`
@@ -310,10 +333,10 @@ INSERT INTO `part` (`partID`, `date`, `username`, `title`, `category`, `subcateg
 (98, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Air Intake Systems', '', '', '', '', '', 1, '', 'Brand New', 9800, '', 0, 0),
 (99, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Carburetors', '', '', '', '', '', 1, '', 'Brand New', 6500, '', 4, 0),
 (100, '0000-00-00 00:00:00', 'akila', '', 'Replacement', 'Ball Joints', '', '', '', '', '', 1, '', 'Used', 1500, '', 1, 0),
-(101, '0000-00-00 00:00:00', 'akila', '', 'Interior', 'Floor Liners/Mats', '2010', 'Honda', '', '', '', 4, '', 'Used', 6500, 'Interior#FloorLiners/Mats#oil pump#1995#town ace', 3, 0),
-(102, '0000-00-00 00:00:00', 'akila', '', 'Suspension', 'Leveling Kits', '2010', 'Honda', '', '', '', 1, '', 'Brand New', 8900, 'Suspension#Leveling Kits####oilpump#town ace#1995', 1, 0),
-(103, '0000-00-00 00:00:00', 'akila', '', 'Exterior', 'Bug Deflectors', '2010', 'Honda', '', 'EX-L', '4Cyl_1.8L', 1, '', 'Brand New', 7500, 'Exterior#Bug Deflectors#2010#Honda##EX-L#4Cyl_1.8L', 4, 0),
-(104, '0000-00-00 00:00:00', 'akila', '', 'Replacement', 'Brake Rotors', '2010', 'Honda', '', 'GX', '4Cyl_1.8L', 1, '', 'Brand New', 2000, 'Replacement#Brake Rotors#2010#Honda##GX#4Cyl_1.8L', 0, 0),
+(101, '0000-00-00 00:00:00', 'akila', '', 'Interior', 'Floor Liners/Mats', '2010', 'Honda', '', '', '', 4, '', 'Used', 6500, 'Interior#FloorLinersandMats#oil pump#1995#town ace', 3, 0),
+(102, '0000-00-00 00:00:00', 'akila', '', 'Suspension', 'Leveling Kits', '2010', 'Honda', '', '', '', 1, '', 'Brand New', 8900, 'Suspension#LevelingKits####oilpump#town ace#1995', 1, 0),
+(103, '0000-00-00 00:00:00', 'akila', '', 'Exterior', 'Bug Deflectors', '2010', 'Honda', 'Civic', 'EX-L', '4Cyl_1.8L', 1, '', 'Brand New', 7500, 'Exterior#BugDeflectors#2010#Honda#Civic#EX-L#4Cyl_1.8L', 4, 0),
+(104, '0000-00-00 00:00:00', 'akila', '', 'Replacement', 'Brake Rotors', '2010', 'Honda', 'Civic', 'GX', '4Cyl_1.8L', 1, '', 'Brand New', 2000, 'Replacement#BrakeRotors#2010#Honda#Civic#GX#4Cyl_1.8L', 0, 0),
 (105, '0000-00-00 00:00:00', 'akila', '', 'Replacement', 'Bumpers', '2010', 'Honda', 'Civic', 'EX', '4Cyl_1.8L', 1, '', 'Brand New', 3200, 'Replacement#Bumpers#2010#Honda#Civic#EX#4Cyl_1.8L', 0, 0),
 (106, '0000-00-00 00:00:00', 'akila', '', 'Wheels and Tires', 'Wheel Bearings and Hubs', '2010', 'Honda', 'Civic', 'Hybrid', '4Cyl_1.8L', 1, '', 'Brand New', 3200, 'WheelsandTires#WheelBearingsandHubs#2010#Honda#Civic#Hybrid#4Cyl_1.8L', 0, 0),
 (107, '2016-02-28 13:38:06', 'akila', '', 'Replacement', 'Brake Pads', '2010', 'Honda', 'Accord Crosstour', '', '', 1, '', 'Brand New', 3200, 'Replacement#BrakePads#2010#Honda#AccordCrosstour', 0, 0),
@@ -321,12 +344,15 @@ INSERT INTO `part` (`partID`, `date`, `username`, `title`, `category`, `subcateg
 (109, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Clutches', '', '', '', '', '', 1, '', 'Brand New', 9800, 'Performance#Clutches', 0, 0),
 (110, '0000-00-00 00:00:00', 'akila', '', 'Replacement', 'Brake Rotors', '', '', '', '', '', 1, '', 'Brand New', 2000, 'Replacement#BrakeRotors', 0, 0),
 (111, '2016-02-28 05:10:52', 'akila', '', 'Suspension', 'Body Lift Kit', '', '', '', '', '', 1, '', 'Brand New', 3000, 'Suspension#BodyLiftKit', 0, 0),
-(112, '2016-02-28 05:12:06', 'akila', '', 'Interior', 'Floor Liners/Mats', '', '', '', '', '', 1, '', 'Brand New', 2000, 'Interior#FloorLiners/Mats', 0, 0),
+(112, '2016-02-28 05:12:06', 'akila', '', 'Interior', 'Floor Liners/Mats', '', '', '', '', '', 1, '', 'Brand New', 2000, 'Interior#FloorLinersandMats', 0, 0),
 (113, '2016-02-28 17:13:02', 'akila', '', 'Performance', 'Carburetors', '', '', '', '', '', 1, '', 'Brand New', 3200, 'Performance#Carburetors', 0, 0),
 (114, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Carburetors', '', '', '', '', '', 1, '', 'Brand New', 3200, 'Performance#Carburetors', 0, 0),
 (115, '2016-02-28 11:20:44', 'akila', '', 'Wheels and Tires', 'Wheel Locks', '', '', '', '', '', 1, '', 'Brand New', 3200, 'WheelsandTires#WheelLocks', 0, 0),
 (116, '2016-02-28 12:17:32', 'akila', '1998 doctor nissan side door', 'Exterior', 'Car Covers', '', '', '', '', '', 1, '', 'Brand New', 5500, 'Exterior#CarCovers', 1, 0),
-(117, '2016-02-28 12:22:15', 'akila', '1998 doctor nissan side door', 'Exterior', 'Car Covers', '', '', '', '', '', 1, '1998 doctor nissan side door', 'Used', 3200, '1998#doctor#nissan#side#door#Exterior#CarCovers', 0, 0);
+(117, '2016-02-28 12:22:15', 'akila', '1998 doctor nissan side door', 'Exterior', 'Car Covers', '', '', '', '', '', 1, '1998 doctor nissan side door', 'Used', 3200, '1998#doctor#nissan#side#door#Exterior#CarCovers', 0, 0),
+(118, '2016-03-07 16:00:32', 'chamod', 'Interior for land rover dicovery', 'Interior', 'Dash Covers', '2010', 'Land Rover', 'Discovery', '', '', 2, '', 'Used', 5600, 'Interior#for#land#rover#dicovery#Interior#DashCovers#2010#LandRover#Discovery', 0, 0),
+(119, '2016-03-07 16:01:14', 'chamod', 'Exterior for Dicovery', 'Exterior', 'Headlights', '2010', 'Land Rover', 'Discovery', '', '', 1, '', 'Brand New', 10000, 'Exterior#for#Dicovery#Exterior#Headlights#2010#LandRover#Discovery', 0, 0),
+(120, '2016-03-08 10:10:33', 'chamod', 'aaa', 'Replacement', 'Ball Joints', '', '', '', '', '', 1, '', 'Brand New', 5000, 'aaa#Replacement#BallJoints', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -354,7 +380,7 @@ INSERT INTO `user` (`username`, `password`, `email`, `mobilenumber`, `usertype`,
 ('admin', 'fcea920f7412b5da7be0cf42b8c93759', 'admin@gmail.com', '0712223334', NULL, 'init'),
 ('akila', '4c2bd0cde4867496f07cf2a751c77b66', 'akila@gmail.com', '', NULL, 'init'),
 ('autopartadmin', 'fcea920f7412b5da7be0cf42b8c93759', 'autopartadmin@gmail.com', '0729577692', 'admin', 'init'),
-('chamod', '827ccb0eea8a706c4c34a16891f84e7b', 'chamodck@gmail.com', '0729577692', NULL, 'edfac66dc231b06fca6ab60f509adfd4'),
+('chamod', '01936e0f3b02cdcabd354354784851fd', 'chamodck@gmail.com', '0729577692', NULL, 'init'),
 ('janith', 'fcea920f7412b5da7be0cf42b8c93759', 'jani@gmail.com', '0718558551', NULL, 'init'),
 ('ljklj', 'fcea920f7412b5da7be0cf42b8c93759', 'd@gmail.com', '1234567890', NULL, 'init'),
 ('miyuru', 'fcea920f7412b5da7be0cf42b8c93759', 'miyu@gmail.com', '0733333333', NULL, 'init'),
