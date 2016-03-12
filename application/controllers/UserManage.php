@@ -6,12 +6,25 @@ class UserManage extends CI_Controller {
 	public function login(){
 		$this->load->model('UserManageModel');
 		$result=$this->UserManageModel->login();
-		if(! $result){
+		if($result==1){
+			$this->load->view('userDetailsForm');
+		}
+		else if($result==2){
 			$this->load->model('AutopartModel');
 			$data['years']=$this->AutopartModel->getYears();
 			$data['loginError']=true;//login unsucess
 			$data['headerAlert']=null;
 			$data['headerFormModal']=null;
+			$data['emailVerifyError']=true;
+			
+			$this->load->view('header',$data);
+		}elseif ($result==3) {
+			$this->load->model('AutopartModel');
+			$data['years']=$this->AutopartModel->getYears();
+			$data['loginError']=true;//login unsucess
+			$data['headerAlert']=null;
+			$data['headerFormModal']=null;
+			$data['emailVerifyError']=false;
 			
 			$this->load->view('header',$data);
 		}
@@ -31,16 +44,50 @@ class UserManage extends CI_Controller {
 		$this->form_validation->set_rules('password','Password','required|matches[verify]|min_length[5]|md5');
 		$this->form_validation->set_rules('verify','Password (again)','required|md5');
 
+		$email=$this->input->post('email');
+		$user=$this->input->post('username');
 		if($this->form_validation->run()==true){
-			$this->load->model('UserManageModel');
-			$result=$this->UserManageModel->addNewUser();
+			$verifycode=md5(date("Y.m.d h:i:sa"));
+			$content="
+					<html>
+					<head>
+					</head>
+					<body>
+						<p>Dear ".$user.",</p>
+						Thank you for becoming a member of the <a href='http://localhost/autopart/'>autopart.lk</a>
+						To get start now with <a href='http://localhost/autopart/'>autopart.lk</a> <b>click <a href='http://localhost/autopart/index.php/UserManage/confirmEmail/".$user."/".$verifycode."'>here</a></b> 
+						<p>Thank you</p>
+					</body>
+					</html>
+					";
+			$result=$this->sendEmailConfirmation('autopart720@gmail.com',$email,'Welcome to autopart.lk',$content);
+			
 			if($result){
-				redirect('','refresh');
+				$this->load->model('UserManageModel');
+				$result=$this->UserManageModel->addNewUser($verifycode);
+				if($result){
+					$this->load->model('AutopartModel');
+					$data['years']=$this->AutopartModel->getYears();
+					$data['loginError']=false;
+					$data['headerAlert']=array('message'=>"Account activation link was sent to your email.",'header'=>"Success",'type'=>"success",'size'=>"md");
+					$data['headerFormModal']=null;
+					
+					$this->load->view('header',$data);
+				}else{
+					$this->load->model('AutopartModel');
+					$data['years']=$this->AutopartModel->getYears();
+					$data['loginError']=false;
+					$data['headerAlert']=array('message'=>"Error occuring while signup!Try again.",'header'=>"Error",'type'=>"danger",'size'=>"sm");
+					$data['headerFormModal']=null;
+					
+					$this->load->view('header',$data);
+				}
+
 			}else{
 				$this->load->model('AutopartModel');
 				$data['years']=$this->AutopartModel->getYears();
 				$data['loginError']=false;
-				$data['headerAlert']=array('message'=>"Error occuring while signup!",'header'=>"Error",'type'=>"danger",'size'=>"sm");
+				$data['headerAlert']=array('message'=>"Error occuring while signup!Try again.",'header'=>"Error",'type'=>"danger",'size'=>"sm");
 				$data['headerFormModal']=null;
 				
 				$this->load->view('header',$data);
@@ -54,6 +101,31 @@ class UserManage extends CI_Controller {
 			
 			$this->load->view('header',$data);
 		}
+	}
+
+	public function sendEmailConfirmation($from,$to,$subject,$content){
+		$this->load->library('email');
+		$this->email->set_newline("\r\n");
+
+	    $config['protocol'] = 'smtp';
+	    $config['smtp_host'] = 'ssl://smtp.googlemail.com';
+	    $config['smtp_port'] = '465';
+	    $config['smtp_user'] = $from;
+	    $config['smtp_from_name'] = 'autopart.lk';
+	    $config['smtp_pass'] = 'autopart.lk';
+	    $config['wordwrap'] = TRUE;
+	    $config['newline'] = "\r\n";
+	    $config['mailtype'] = 'html';
+
+		$this->email->initialize($config);
+		$this->email->set_newline("\r\n");
+
+		$this->email->from($from,'autopart.lk');
+		$this->email->to($to);
+		$this->email->subject($subject);
+		$this->email->message($content);
+		$result=$this->email->send();
+		return $result;
 	}
 
 	public function is_exist($str, $field){
@@ -217,6 +289,37 @@ class UserManage extends CI_Controller {
 			$data1['username']=$username;
 			$this->load->view('changePassword',$data1);
 			$this->load->view('footer');
+		}
+	}
+
+	public function confirmEmail($username,$verifycode){
+		$this->load->model('UserManageModel');
+		$code=$this->UserManageModel->getEmailVerifycode($username);
+		if($code==$verifycode){
+			$this->UserManageModel->setStandby($username);
+			redirect('','refresh');
+		}else{
+			$this->load->model('AutopartModel');
+			$data['years']=$this->AutopartModel->getYears();
+			$data['loginError']=false;
+			$data['headerAlert']=array('header'=>"Something Wrong",'size'=>"sm",'message'=>"Invalid URL!",'type'=>"danger");
+			$data['headerFormModal']=null;
+
+			$data1['categories']=$this->AutopartModel->getAllCategories();
+			$this->load->view('header',$data);
+			$this->load->view('category',$data1);
+			$this->load->view('footer');
+		}
+	}
+
+	public function userDetailsSubmit(){
+		$this->form_validation->set_rules('nic','NIC','is_unique[user.nic]');
+		if($this->form_validation->run()==true){
+			$this->load->model('UserManageModel');
+			$this->UserManageModel->setUserDetails();
+			redirect('','location');
+		}else{
+			$this->load->view('userDetailsForm');
 		}
 	}
 }

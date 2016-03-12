@@ -155,118 +155,126 @@
 			$query=$this->db->query("UPDATE part SET numofphotos=numofphotos+1 WHERE partID=$partID");
 		}
 
-		public function getResults($type,$word,$page){
-			$word=urldecode($word);
-			$limit=1;
-			$offset=$limit*$page-$limit;
+		public function getNormalSearch($page){
+			if($this->input->get('search')){
+				$limit=1;
+				$offset=$limit*$page-$limit;
 
-			if($type=='normal'){
-
-				if($this->input->post('search')){
-					$str=$this->input->post('search');
-				}else{
-					$str=$word;
-				}
-				
+				$str=$this->input->get('search');
 				$str=trim($str);
 				$array=explode(" ",$str);
 
-				$q='';$count=0;
-				foreach ($array as $keyword) {
-					if($count==0){
-						$q.="keyword LIKE '%".$keyword."%'";
+				$q='';
+				for ($i=0;$i<sizeof($array);$i++) {
+					if($i==0){
+						$q.="keyword LIKE '%".$array[$i]."%'";
 					}else{
-						$q.=" OR keyword LIKE '%".$keyword."%'";
+						$q.=" OR keyword LIKE '%".$array[$i]."%'";
 					}
-					$count++;
+					
 				}
 
 				$query=$this->db->query("SELECT * FROM part WHERE(".$q.")");
 				$query1=$this->db->query("SELECT * FROM part WHERE(".$q.") ORDER BY partID DESC LIMIT $limit OFFSET $offset");
-				$array['searchresult']=array('resultset'=>$query1,'keyword'=>$str,'type'=>$type,'resultsize'=>$query->num_rows(),'page'=>$page,'limit'=>$limit);
+				$array['searchresult']=array('resultset'=>$query1,'keyword'=>$str,'type'=>'normal','resultsize'=>$query->num_rows(),'page'=>$page,'limit'=>$limit,'suffix'=>$_SERVER['QUERY_STRING']);
 				$query1=$this->db->query("SELECT COUNT(*) AS count,category AS data FROM part GROUP BY category");
 				$array['related']=array('name'=>'Categories','resultset'=>$query1,'type'=>'normal');
-				return $array;
-			}elseif ($type=='category' | $type=='subcategory') {
-				$query=$this->db->query("SELECT * FROM part WHERE keyword LIKE '%".str_replace(' ','',$word)."%'");
-				$query1=$this->db->query("SELECT * FROM part WHERE keyword LIKE '%".str_replace(' ','',$word)."%' ORDER BY partID DESC LIMIT $limit OFFSET $offset");
-				$array['searchresult']=array('resultset'=>$query1,'keyword'=>$word,'type'=>$type,'resultsize'=>$query->num_rows(),'page'=>$page,'limit'=>$limit);
-				
-				if($type=='category'){
-					$query1=$this->db->query("SELECT COUNT(*) AS count,subcategory as data FROM part WHERE category='$word' GROUP BY subcategory");
-					$array['related']=array('name'=>$word,'resultset'=>$query1,'type'=>'subcategory');
-				}else{
-					$query1=$this->db->query("SELECT category FROM category WHERE subCategory='$word'");
-					foreach ($query1->result() as $row) {
-						$category=$row->category;
-					}
-					$query1=$this->db->query("SELECT COUNT(*) AS count,subcategory AS data FROM part WHERE category='$category' GROUP BY subcategory");
-					$array['related']=array('name'=>$category,'resultset'=>$query1,'type'=>'subcategory');
-				}
-				return $array;
-			}else{
-				if($this->input->post('year')){
-					$year=$this->input->post('year');
-					$madeBy=$this->input->post('madeBy');
-					$model=$this->input->post('model');
-					$submodel=$this->input->post('submodel');
-					$engine=$this->input->post('engine');
-
-					$q="keyword LIKE '%".$year."%'";
-					//$word='';
-					$word=$year;
-					if($madeBy){
-						$q.=" AND keyword LIKE '%".str_replace(' ','',$madeBy)."%'";
-						$word.='>'.$madeBy;
-					}
-					if($model){
-						$q.=" AND keyword LIKE '%".str_replace(' ','',$model)."%'";
-						$word.='>'.$model;
-					}
-					if($submodel){
-						$q.=" AND keyword LIKE '%".str_replace(' ','',$submodel)."%'";
-						$word.='>'.$submodel;
-					}
-					if($engine){
-						$q.=" AND keyword LIKE '%".str_replace(' ','',$engine)."%'";
-						$word.='>'.$engine;
-					}
-					$query1=$this->db->query("SELECT COUNT(*) AS count,category AS data FROM part WHERE(".$q.") GROUP BY category");
-					$array['related']=array('name'=>$word,'resultset'=>$query1,'type'=>'vehicle');
-				}else{
-					$array=explode(">",$word);
-					$count=0;
-					$q="";
-					foreach ($array as $value) {
-						if($count==0){
-							$q.="keyword LIKE '%".str_replace(' ','',$value)."%'";
-						}else{
-							$q.="AND keyword LIKE '%".str_replace(' ','',$value)."%'";
-						}
-						$count++;
-					}
-					$query=$this->db->query("SELECT * FROM category WHERE category='".$array[$count-1]."' OR subCategory='".$array[$count-1]."'");
-					if($query->num_rows()>0){
-						$query1=$this->db->query("SELECT COUNT(*) AS count,subcategory AS data FROM part WHERE(".$q.") GROUP BY subcategory");
-					}else{
-						$query1=$this->db->query("SELECT COUNT(*) AS count,category AS data FROM part WHERE(".$q.") GROUP BY category");
-					}
-					$array['related']=array('name'=>$word,'resultset'=>$query1,'type'=>'vehicle');
-				}				
-				
-				$query=$this->db->query("SELECT * FROM part WHERE(".$q.")");
-				$query1=$this->db->query("SELECT * FROM part WHERE(".$q.") ORDER BY partID DESC LIMIT $limit OFFSET $offset");
-				$array['searchresult']=array('resultset'=>$query1,'keyword'=>$word,'type'=>$type,'resultsize'=>$query->num_rows(),'page'=>$page,'limit'=>$limit);
-				
 				return $array;
 			}
 		}
 
-		public function getVehicleCategory($type,$word,$page){
-			$word=urldecode($word);
-			$limit=5;
+		public function getCategorySearch($keyword,$page){
+			$limit=1;
 			$offset=$limit*$page-$limit;
 
+			$query=$this->db->query("SELECT * FROM part WHERE keyword LIKE '%".str_replace(' ','',$keyword)."%'");
+			$query1=$this->db->query("SELECT * FROM part WHERE keyword LIKE '%".str_replace(' ','',$keyword)."%' ORDER BY partID DESC LIMIT $limit OFFSET $offset");
+			$array['searchresult']=array('resultset'=>$query1,'keyword'=>$keyword,'type'=>'category','resultsize'=>$query->num_rows(),'page'=>$page,'limit'=>$limit);
+			$query1=$this->db->query("SELECT COUNT(*) AS count,subcategory as data FROM part WHERE category='$keyword' GROUP BY subcategory");
+			$array['related']=array('name'=>$keyword,'resultset'=>$query1,'type'=>'subcategory');
+			return $array;
 		}
+
+		public function getSubcategorySearch($keyword,$page){
+			$limit=1;
+			$offset=$limit*$page-$limit;
+
+			$query=$this->db->query("SELECT * FROM part WHERE keyword LIKE '%".str_replace(' ','',$keyword)."%'");
+			$query1=$this->db->query("SELECT * FROM part WHERE keyword LIKE '%".str_replace(' ','',$keyword)."%' ORDER BY partID DESC LIMIT $limit OFFSET $offset");
+			$array['searchresult']=array('resultset'=>$query1,'keyword'=>$keyword,'type'=>'subcategory','resultsize'=>$query->num_rows(),'page'=>$page,'limit'=>$limit);
+			
+			$query1=$this->db->query("SELECT category FROM category WHERE subCategory='$keyword'");
+
+			foreach ($query1->result() as $row) {
+				$category=$row->category;
+			}
+			$query1=$this->db->query("SELECT COUNT(*) AS count,subcategory AS data FROM part WHERE category='$category' GROUP BY subcategory");
+			$array['related']=array('name'=>$category,'resultset'=>$query1,'type'=>'subcategory');
+			return $array;
+		}
+
+		public function getVehicleSearch($page){
+			$limit=1;
+			$offset=$limit*$page-$limit;
+			if($this->input->get('year')){
+				$year=$this->input->get('year');
+				$madeBy=$this->input->get('madeBy');
+				$model=$this->input->get('model');
+				$submodel=$this->input->get('submodel');
+				$engine=$this->input->get('engine');
+				$category=$this->input->get('category');
+				$subcategory=$this->input->get('subcategory');
+
+				$q="keyword LIKE '%".$year."%'";
+				$w="";
+				//$word='';
+				$word=$year;
+				if($madeBy){
+					$q.=" AND keyword LIKE '%".str_replace(' ','',$madeBy)."%'";
+					$word.='>'.$madeBy;
+				}
+				if($model){
+					$q.=" AND keyword LIKE '%".str_replace(' ','',$model)."%'";
+					$word.='>'.$model;
+				}
+				if($submodel){
+					$q.=" AND keyword LIKE '%".str_replace(' ','',$submodel)."%'";
+					$word.='>'.$submodel;
+				}
+				if($engine){
+					$q.=" AND keyword LIKE '%".str_replace(' ','',$engine)."%'";
+					$word.='>'.$engine;
+				}
+				if($category){
+					$q.=" AND keyword LIKE '%".str_replace(' ','',$category)."%'";
+					$w=$q;
+					$word.='>'.$category;
+				}
+				if($subcategory){
+					$q.=" AND keyword LIKE '%".str_replace(' ','',$subcategory)."%'";
+					$word.='>'.$subcategory;
+				}
+
+				if($category){
+					if($subcategory){
+						$query1=$this->db->query("SELECT COUNT(*) AS count,subcategory AS data FROM part WHERE(".$w.") GROUP BY subcategory");
+						$array['related']=array('name'=>$word,'resultset'=>$query1,'type'=>'vehicle','need'=>'subcat','subcategory'=>$subcategory);
+					}else{
+						$query1=$this->db->query("SELECT COUNT(*) AS count,subcategory AS data FROM part WHERE(".$q.") GROUP BY subcategory");
+						$array['related']=array('name'=>$word,'resultset'=>$query1,'type'=>'vehicle','need'=>'subcat','subcategory'=>'');
+					}
+				}else{
+					$query1=$this->db->query("SELECT COUNT(*) AS count,category AS data FROM part WHERE(".$q.") GROUP BY category");
+					$array['related']=array('name'=>$word,'resultset'=>$query1,'type'=>'vehicle','need'=>'cat');
+				}
+
+				$query=$this->db->query("SELECT * FROM part WHERE(".$q.")");
+				$query1=$this->db->query("SELECT * FROM part WHERE(".$q.") ORDER BY partID DESC LIMIT $limit OFFSET $offset");
+				$array['searchresult']=array('resultset'=>$query1,'keyword'=>$word,'type'=>'vehicle','resultsize'=>$query->num_rows(),'page'=>$page,'limit'=>$limit,'suffix'=>$_SERVER['QUERY_STRING']);
+
+				return $array;
+			}
+		}
+		
 	}
 ?>

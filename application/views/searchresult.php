@@ -29,22 +29,32 @@
                         <?php
                             foreach ($related['resultset']->result() as $row) {
                                 if($related['type']=='vehicle'){
-                                    $url=site_url("AutopartManage/search/vehicle/".$searchresult['keyword'].">".$row->data."/1");
-                                    echo "<a href='$url' class='list-group-item' ><span class='badge'>$row->count</span>$row->data</a>";
+                                    if($related['need']=='cat'){
+                                        $url=site_url("AutopartManage/vehicleSearch/1?".$searchresult['suffix']."&category=".$row->data);
+                                         echo "<a href='$url' class='list-group-item' ><span class='badge'>$row->count</span>$row->data</a>";
+                                    }else{
+                                        $url=site_url("AutopartManage/vehicleSearch/1?".$searchresult['suffix']."&subcategory=".$row->data);
+
+                                        if($related['subcategory']==$row->data){
+                                            echo "<a href='$url' class='list-group-item' ><span class='badge'>$row->count</span><strong>$row->data</strong></a>";
+                                        }else{
+                                            echo "<a href='$url' class='list-group-item' ><span class='badge'>$row->count</span>$row->data</a>";
+                                        }
+                                    }
+                                                                      
                                 }elseif ($related['type']=='normal') {
-                                    $url=site_url("AutopartManage/search/category/".$row->data."/1");
+                                    $url=site_url("AutopartManage/categorySearch/".$row->data."/1");
                                     echo "<a href='$url' class='list-group-item' ><span class='badge'>$row->count</span>$row->data</a>";
                                 }else{
-                                    $url=site_url("AutopartManage/search/".$related['type']."/".$row->data."/1");
+                                    $url=site_url("AutopartManage/subcategorySearch/".$row->data."/1");
                                     if($searchresult['keyword']==$row->data){
-                                        echo "<a href='$url' class='list-group-item' ><span class='badge'>$row->count</span><strong>$row->data</strong></a>";
+                                        echo "<a href='$url' class='list-group-item'><span class='badge'>$row->count</span><strong>$row->data</strong></a>";
                                     }else{
-                                        echo "<a href='$url' class='list-group-item' ><span class='badge'>$row->count</span>$row->data</a>";
+                                        echo "<a href='$url' class='list-group-item'><span class='badge'>$row->count</span>$row->data</a>";
                                     }
                                 }  
                             }
                         ?>
-                        
                     </div>
                 </ul>
                 <!--</div>-->
@@ -116,10 +126,11 @@
                     <div class="row">
                         
                         <div class="col-md-3" style="height:100px">
-                            <a href="#"><img class="img-responsive" style="height:100%" src="<?php echo base_url();?>uploads/autopartphotos/<?=$partID?>/<?=$img?>" alt="Image not available!"></a>
+                            <?php $url=site_url("AutopartManage/item_select/".$partID); ?>
+                            <a href="<?=$url?>"><img class="img-responsive img-rounded" style="height:100%" src="<?php echo base_url();?>uploads/autopartphotos/<?=$partID?>/<?=$img?>" alt="Image not available!"></a>
                         </div>
                         <div class="col-md-9">
-                            <p><a href="#"><strong><?=$row->title?></strong></a></p>
+                            <p><a href="<?=$url?>"><strong><?=$row->title?></strong></a></p>
                             <div>
                             <?php 
                                 if($row->status=='Brand New'){
@@ -130,7 +141,7 @@
                                 
                             ?>
                             <dev class='pull-right'><a href='#' class='btn btn-default '>Add to <i class='glyphicon glyphicon-shopping-cart'></i></a></dev>
-                            <dev class='pull-right' style='padding-right:5px'><a href='#' class='btn btn-primary ' >Bye It Now</a></dev>
+                            <dev class='pull-right' style='padding-right:5px'><a href='#' class='btn btn-primary ' >Buy It Now</a></dev>
                             <dev class='pull-right' style='padding-right:5px'><input type='number' id='quantity' class='form-control' name='quantity' style='width:60px' value='1' min='1' max='<?=$row->quantity?>' required></dev>
                                 
                             </div>
@@ -176,6 +187,8 @@
                                 $lastpage=$loopsize;
                                 if($loopsize>$paginationSize){
                                     $loopsize=$paginationSize;
+                                }else{
+                                    $paginationSize=$loopsize;
                                 }
 
                                 $loopstart=1;
@@ -190,17 +203,28 @@
                                 $type=$searchresult['type'];
                                 $keyword=$searchresult['keyword'];
                                 $prev=$searchresult['page']-1;
+                                $next=$searchresult['page']+1;
 
-                                $url1=site_url("AutopartManage/search/$type/$keyword/1");//url for first page
-                                $url=site_url("AutopartManage/search/$type/$keyword/$prev");//for previous
-                                
-
-                                if($searchresult['page']==1){
-                                    echo "<li class='disabled'><a title='First page' href='$url1'>&Lang;</a></li>";
-                                    echo "<li class='disabled'><a title='Previous page' href='$url1'>&lang;</a></li>";
+                                if($related['type']=='normal'){
+                                    $urlprev=site_url("AutopartManage/normalSearch/$prev?".$searchresult['suffix']);//url for first page
+                                    $urlfirst=site_url("AutopartManage/normalSearch/1?".$searchresult['suffix']);//for previous
+                                    $urlnext=site_url("AutopartManage/normalSearch/$next?".$searchresult['suffix']);
+                                    $urllast=site_url("AutopartManage/normalSearch/$lastpage?".$searchresult['suffix']);
+                                }elseif ($type=='vehicle') {
+                                    $urlprev=site_url("AutopartManage/vehicleSearch/$prev?".$searchresult['suffix']);//url for first page
+                                    $urlfirst=site_url("AutopartManage/vehicleSearch/1?".$searchresult['suffix']);//for previous
+                                    $urlnext=site_url("AutopartManage/vehicleSearch/$next?".$searchresult['suffix']);
+                                    $urllast=site_url("AutopartManage/vehicleSearch/$lastpage?".$searchresult['suffix']);
                                 }else{
-                                    echo "<li ><a title='First page' href='$url1'>&Lang;</a></li>";
-                                    echo "<li ><a title='Previous page' href='$url'>&lang;</a></li>";
+                                    $urlprev=site_url("AutopartManage/".$type."Search/".$keyword."/$prev");//url for first page
+                                    $urlfirst=site_url("AutopartManage/".$type."Search/".$keyword."/1");//for previous
+                                    $urlnext=site_url("AutopartManage/".$type."Search/".$keyword."/$next");
+                                    $urllast=site_url("AutopartManage/".$type."Search/".$keyword."/$lastpage");
+                                }
+
+                                if($searchresult['page']!=1){
+                                    echo "<li ><a title='First page' href='$urlfirst'>&Lang;</a></li>";
+                                    echo "<li ><a title='Previous page' href='$urlprev'>&lang;</a></li>";
                                 }
                                 
                                 for($i=$loopstart;$i<$loopstart+$loopsize;$i++){
@@ -210,21 +234,21 @@
                                         echo "<li>";
                                     }
                                     
-                                    $url=site_url("AutopartManage/search/$type/$keyword/$i");
-
+                                    if($related['type']=='normal'){
+                                        $url=site_url("AutopartManage/normalSearch/$i?".$searchresult['suffix']);
+                                    }elseif ($type=='vehicle') {
+                                        $url=site_url("AutopartManage/vehicleSearch/$i?".$searchresult['suffix']);
+                                    }else{
+                                        $url=site_url("AutopartManage/".$type."Search/".$keyword."/$i");
+                                    }
                                     echo "<a href='$url'>$i</a></li>";
                                 }
 
-                                $next=$searchresult['page']+1;
-                                $url=site_url("AutopartManage/search/$type/$keyword/$next");
-                                $url1=site_url("AutopartManage/search/$type/$keyword/$lastpage");
+                                
 
-                                if($searchresult['page']==$lastpage){
-                                    echo "<li class='disabled'><a title='Next page' href='$url1'>&rang;</a></li>";
-                                    echo "<li class='disabled'><a title='Last page' href='$url1'>&Rang;</a></li>";//set >> button
-                                }else{
-                                    echo "<li ><a title='Next page' href='$url'>&rang;</a></li>";
-                                    echo "<li ><a title='Last page' href='$url1'>&Rang;</a></li>";
+                                if($searchresult['page']!=$lastpage){
+                                    echo "<li ><a title='Next page' href='$urlnext'>&rang;</a></li>";
+                                    echo "<li ><a title='Last page' href='$urllast'>&Rang;</a></li>";
                                 }
 
                             ?> 

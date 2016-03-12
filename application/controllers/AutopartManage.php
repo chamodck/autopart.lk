@@ -154,6 +154,87 @@ class AutopartManage extends CI_Controller {
 		}
 	}
 
+	public function normalSearch($page){
+		$this->load->library('pagination');
+		$config['total_rows'] = 200;
+		$config['per_page'] = 20;
+
+		$this->pagination->initialize($config);
+
+		$this->load->model('AutopartModel');
+		$result=$this->AutopartModel->getNormalSearch($page);
+		$data1['searchresult']=$result['searchresult'];
+		$data1['related']=$result['related'];
+
+		$data['years']=$this->AutopartModel->getYears();
+		$data['loginError']=false;
+		$data['headerAlert']=null;
+		$data['headerFormModal']=null;
+		$this->load->view('header',$data);
+		$this->load->view('searchresult',$data1);
+		$this->load->view('footer');
+	}
+
+	public function categorySearch($keyword,$page){
+		$this->load->model('AutopartModel');
+		$result=$this->AutopartModel->getCategorySearch(urldecode($keyword),$page);
+		$data1['searchresult']=$result['searchresult'];
+		$data1['related']=$result['related'];
+
+		$data['years']=$this->AutopartModel->getYears();
+		$data['loginError']=false;
+		$data['headerAlert']=null;
+		$data['headerFormModal']=null;
+		$this->load->view('header',$data);
+		$this->load->view('searchresult',$data1);
+		$this->load->view('footer');
+	}
+
+	public function subcategorySearch($keyword,$page){
+		$this->load->model('AutopartModel');
+		$result=$this->AutopartModel->getsubcategorySearch(urldecode($keyword),$page);
+		$data1['searchresult']=$result['searchresult'];
+		$data1['related']=$result['related'];
+
+		$data['years']=$this->AutopartModel->getYears();
+		$data['loginError']=false;
+		$data['headerAlert']=null;
+		$data['headerFormModal']=null;
+		$this->load->view('header',$data);
+		$this->load->view('searchresult',$data1);
+		$this->load->view('footer');
+	}
+
+	public function vehicleSearch($page){
+		$this->load->model('AutopartModel');
+		$result=$this->AutopartModel->getVehicleSearch($page);
+		$data1['searchresult']=$result['searchresult'];
+		$data1['related']=$result['related'];
+
+		$data['years']=$this->AutopartModel->getYears();
+		$data['loginError']=false;
+		$data['headerAlert']=null;
+		$data['headerFormModal']=null;
+		$this->load->view('header',$data);
+		$this->load->view('searchresult',$data1);
+		$this->load->view('footer');
+	}
+
+	public function vehicleSearchExtend($keyword,$page){
+		$this->load->model('AutopartModel');
+		$result=$this->AutopartModel->getVehicleExtend($keyword,$page);
+		$data1['searchresult']=$result['searchresult'];
+		$data1['related']=$result['related'];
+
+		$data['years']=$this->AutopartModel->getYears();
+		$data['loginError']=false;
+		$data['headerAlert']=null;
+		$data['headerFormModal']=null;
+		$this->load->view('header',$data);
+		$this->load->view('searchresult',$data1);
+		$this->load->view('footer');
+	}
+
 	public function search($type,$word,$page){
 		$this->load->model('AutopartModel');
 		$result=$this->AutopartModel->getResults($type,$word,$page);
@@ -166,6 +247,17 @@ class AutopartManage extends CI_Controller {
 		$data['headerFormModal']=null;
 		$this->load->view('header',$data);
 		$this->load->view('searchresult',$data1);
+		$this->load->view('footer');
+	}
+
+	public function item_select($partID){
+		$this->load->model('AutopartModel');
+		$data['years']=$this->AutopartModel->getYears();
+		$data['loginError']=false;
+		$data['headerAlert']=null;
+		$data['headerFormModal']=null;
+		$this->load->view('header',$data);
+		$this->load->view('item');
 		$this->load->view('footer');
 	}
 }

@@ -134,7 +134,7 @@ body {
     if (submodel == "") {
       document.getElementById(subcategoryField).innerHTML = "<option value=''>--Select a Subcategory--</option>";
       return;
-    } else { 
+    } else {
       if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
         xmlhttp = new XMLHttpRequest();
@@ -223,7 +223,15 @@ body {
                   </div>
                   <div class="form-group">
                     <input name="loginpassword" <?php if($p){echo "value=$p";} ?> class="form-control" id="password" type="password" placeholder="Password" title="Enter your password" required="">
-                    <?php if($loginError){echo "<div class='bg-danger text-danger'>The username/email and password you entered don't match.</div>";}?>
+                    <?php 
+                      if($loginError){
+                        if($emailVerifyError){
+                          echo "<div class='bg-danger text-danger'>Check emails and active your account</div>";
+                        }else{
+                          echo "<div class='bg-danger text-danger'>The username/email and password you entered don't match.</div>";
+                        }
+                      }
+                    ?>
                   </div>
                   <div class="checkbox">
                     <label><input type="checkbox" <?php if($u){echo "checked";} ?> value="1" name="remember">Remember me</label>
@@ -297,7 +305,7 @@ body {
       </ul>
 
     <div class="navbar-right col-md-3 col-sm-3">
-      <form class="navbar-form" action="<?=site_url('AutopartManage/search/normal/search/1'); ?>" method="post" role="search">
+      <form class="navbar-form" action="<?=site_url('AutopartManage/normalSearch/1'); ?>" method="get" role="search">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Search(ex:mirror)" name="search" id="search" title="Search any autopart" required>
             <div class="input-group-btn">
@@ -312,8 +320,8 @@ body {
    <li class="dropdown" id="searchVehicle">
       <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="navSearchVehicle">Search by Vehicle <span class="caret"></span></button>
         <div class="dropdown-menu" style="padding:15px; width:200px;">
-          <?php echo form_open('AutopartManage/search/vehicle/search/1'); ?>
-
+          
+          <form action="<?=site_url('AutopartManage/vehicleSearch/1'); ?>" method="get" role="search">
             <div class="form-group">
               <label for="sel1">Select Vehicle Details</label>
               <select id="year" name="year" class="form-control" onchange="loadMadeBy('madeBy','model','submodel','engine',this.value)" title="Select your vehicle year" required>
@@ -539,7 +547,7 @@ body {
                 </div>
               </div>
 
-            <div class="form-group col-lg-5" style="float:right">
+            <div class="form-group col-lg-5 pull-right" >
               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-primary">Next</button>
             </div>

@@ -1,9 +1,0 @@
-<?php 
-	if(!isset($_SESSION)) 
-    { 
-        session_start(); 
-    } 
-    if(!$_SESSION["usertype"]){
-        header("location:/autopart/login.php?session=notset");
-	 }
-?>
