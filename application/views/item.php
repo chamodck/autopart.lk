@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="<?php echo base_url();?>css/bootstrap-simplex-theme.css" rel="stylesheet" type="text/css">
+<<<<<<< HEAD
 
 <style type="text/css">
   
@@ -55,6 +56,11 @@ p {
 }
 
 </style>
+=======
+<script src="<?php echo base_url();?>script/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>script/bootstrap.min.js" type="text/javascript"></script>
+
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 </head>
 
 <body>
@@ -63,6 +69,7 @@ p {
         <!-- Portfolio Item Row -->
         <div class="row">
 
+<<<<<<< HEAD
             <div class="col-md-6">
                 <div id='carousel-custom' class='carousel slide'>
                     <div class='carousel-outer'>
@@ -125,6 +132,14 @@ p {
 
             <div class="col-md-6">
                 <h3><?=$row->title?></h3>
+=======
+            <div class="col-md-5">
+                <img class="img-responsive" src="http://placehold.it/750x500" alt="">
+            </div>
+
+            <div class="col-md-7">
+                <h3>Project Description</h3>
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
                 <h3>Project Details</h3>
                 <ul>
@@ -173,6 +188,7 @@ p {
         <!-- /.row -->
     </div>
 </body>
+<<<<<<< HEAD
 <script src="<?php echo base_url();?>script/jquery-2.1.4.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>script/bootstrap.min.js" type="text/javascript"></script>
 <script src="<?php echo base_url();?>script/imagezoom.js"></script>
@@ -182,5 +198,7 @@ p {
 });
 </script>
 
+=======
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 
 </html>

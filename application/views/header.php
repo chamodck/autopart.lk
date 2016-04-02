@@ -11,6 +11,10 @@
 
 <style type="text/css"> 
 body {
+<<<<<<< HEAD
+=======
+    padding-bottom: 40px;
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
     padding-top: 60px;
 }
 
@@ -18,8 +22,11 @@ body {
     width:20%;
 }
 
+<<<<<<< HEAD
 }
 
+=======
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 </style>
 
 <script type="text/javascript">
@@ -153,6 +160,7 @@ body {
     }
   }
 
+<<<<<<< HEAD
   function uploadPhoto(partID){
       if (window.XMLHttpRequest) {
         // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -169,10 +177,13 @@ body {
       xmlhttp.open("POST","<?php echo base_url(); ?>" +"index.php/AutopartManage/uploadPhoto/"+escape(partID) ,true);
       xmlhttp.send();
   }
+=======
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 </script>
 </head>
 
 <body>
+<<<<<<< HEAD
 <?php
   $this->load->helper('cookie');
   if(get_cookie('language')){
@@ -183,6 +194,8 @@ body {
   }
 ?>
 
+=======
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 
 <div class="navbar navbar-fixed-top navbar-default" >
   <div class="container">
@@ -202,7 +215,11 @@ body {
        <li><a href="#">Page 2</a></li> 
       <li>
         <form id="postAd" action="<?php echo site_url('AutopartManage/postAd'); ?>" method="post">
+<<<<<<< HEAD
             <button type="submit" id="btnRegister" class="btn btn-success"><?=constant('POST_AD')?></button>
+=======
+            <button type="submit" id="btnRegister" class="btn btn-success">Post Ad</button>
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
         </form>
       </li> 
     </ul>
@@ -213,15 +230,24 @@ body {
       <?php     
         if($this->session->has_userdata('username')){//Checking whether a user has logged in
           $username=$this->session->userdata('username'); 
+<<<<<<< HEAD
           
+=======
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
       ?>
           <li class="dropdown" id="menuLogin">
             <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin"><img src="<?php echo base_url();?>images/profile1.png" class="profile-image img-circle"> <?php echo $username; ?></a>
               <ul class="dropdown-menu dropdown-menu-right">
+<<<<<<< HEAD
                 
                 <li><a href="<?php echo site_url('UserManage/profile'); ?>" ><i class="glyphicon glyphicon-user"></i> Profile</a></li>
                 
                 <li><a href="<?php echo site_url('UserManage/logout'); ?>"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+=======
+                <li><a href="#" ><i class="glyphicon glyphicon-user"></i> Profile</a></li>
+                
+                <li><a href="<?php echo site_url('usermanage/logout'); ?>"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
               </ul>
           </li>
           
@@ -244,7 +270,11 @@ body {
             <a class="dropdown-toggle" href="#" data-toggle="dropdown" id="navLogin"><i class="glyphicon glyphicon-log-in"></i> Login</a>
               <div class="dropdown-menu" style="padding:15px; width: 250px;">
                 
+<<<<<<< HEAD
                 <form id="formLogin" action="<?php echo site_url('UserManage/login'); ?>" method="post" autocomplete="off">
+=======
+                <form id="formLogin" action="<?php echo site_url('usermanage/login'); ?>" method="post" autocomplete="off">
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 
                   <div class="form-group">
                     <label>Login</label> 
@@ -276,7 +306,11 @@ body {
                 </div>
 
 
+<<<<<<< HEAD
                 <form id="formRegister" class="form collapse" action="<?php echo site_url('UserManage/signup'); ?>" method="post" autocomplete="off" accept-charset="utf-8">
+=======
+                <form id="formRegister" class="form collapse" action="<?php echo site_url('usermanage/signup'); ?>" method="post" autocomplete="off" accept-charset="utf-8">
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
                   <div class="form-group">
                      <label >Sign-up</label>
                     <input name="email" class="form-control" id="inputEmail" type="email" placeholder="Email" value="<?=set_value('email')?>" title="Enter your email" required="">
@@ -309,7 +343,11 @@ body {
                 <div class="form-group">
                   <form><a id="forgot" data-toggle="collapse" data-target="#forgotPassword" class="collapsed" role="button" href="#">Forgot username or password?</a></form>
                 </div>
+<<<<<<< HEAD
                 <form id="forgotPassword" class="form collapse" action="<?=site_url('UserManage/forgotPassword'); ?>" method="post" accept-charset="utf-8">
+=======
+                <form id="forgotPassword" class="form collapse" action="<?=site_url('usermanage/forgotPassword'); ?>" method="post" accept-charset="utf-8">
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
                   <div class="form-group">
                     <label >Email</label>
                     <input name="forgotEmail" class="form-control" id="email" type="email" placeholder="Email" title="Enter your email" value="<?=set_value('forgotEmail')?>" required="">
@@ -333,6 +371,7 @@ body {
       ?>
       </ul>
 
+<<<<<<< HEAD
     <div class="navbar-right">
       <div class="dropdown">
         <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
@@ -354,6 +393,8 @@ body {
       </div>
     </div>
 
+=======
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
     <div class="navbar-right col-md-3 col-sm-3">
       <form class="navbar-form" action="<?=site_url('AutopartManage/normalSearch/1'); ?>" method="get" role="search">
         <div class="input-group">
@@ -672,6 +713,11 @@ body {
     }
   }
 ?>
+<<<<<<< HEAD
 
 </body>
 </html>
+=======
+</body>
+</html>
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1

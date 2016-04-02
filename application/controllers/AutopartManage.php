@@ -104,7 +104,11 @@ class AutopartManage extends CI_Controller {
 			$result=$this->AutopartModel->setNewAutopart();
 			if($result){
 				$data['headerAlert']=null;
+<<<<<<< HEAD
 				$data['headerFormModal']=array('name'=>'photoFormModal','partID'=>$result);
+=======
+				$data['headerFormModal']=array('name'=>'photoFormModal','partID'=>$result,'photonumber'=>0);
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 			}else{
 				$data['headerAlert']=array('message'=>"Something wrong in Post Ad prosess.Try again!",'header'=>"Error",'type'=>"danger",'size'=>"md");
 				$data['headerFormModal']=null;
@@ -256,11 +260,16 @@ class AutopartManage extends CI_Controller {
 		$data['loginError']=false;
 		$data['headerAlert']=null;
 		$data['headerFormModal']=null;
+<<<<<<< HEAD
 
 		$this->AutopartModel->increseViews($partID);
 		$data1['row']=$this->AutopartModel->getItem($partID);
 		$this->load->view('header',$data);
 		$this->load->view('item',$data1);
+=======
+		$this->load->view('header',$data);
+		$this->load->view('item');
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 		$this->load->view('footer');
 	}
 }

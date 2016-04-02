@@ -11,19 +11,30 @@
     <link href="<?php echo base_url();?>css/bootstrap-simplex-theme.css" rel="stylesheet" type="text/css">
     <script src="<?php echo site_url();?>script/jquery-2.1.4.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url();?>script/bootstrap.min.js" type="text/javascript"></script>
+<<<<<<< HEAD
+=======
+
+    
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 </head>
 
 <body>
     <!-- Page Content -->
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
     <div class="container">
 
         <div class="row">
             
             <div class="col-md-3">
+<<<<<<< HEAD
                 
                 <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
+=======
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
                 <!--<div class="sidebar-nav-fixed affix">-->
                 <ul class="list-group">
                     <a href="#" class="list-group-item active" id="related" data-toggle="collapse" data-target="#relatedresult"><?= $related['name']?><span class="icon glyphicon glyphicon-chevron-up pull-right"></span></a>
@@ -59,9 +70,12 @@
                         ?>
                     </div>
                 </ul>
+<<<<<<< HEAD
             </div>
         </div>
     
+=======
+>>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
                 <!--</div>-->
             </div>
             <script type="text/javascript">
