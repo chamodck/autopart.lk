@@ -20,7 +20,6 @@ class Welcome extends CI_Controller {
 	 */
 
 	public function index(){
-<<<<<<< HEAD
 		if($this->session->has_userdata('username')){
           $email=$this->session->userdata('email'); 
           if($email=='autopart720@gmail.com'){
@@ -50,18 +49,6 @@ class Welcome extends CI_Controller {
 			$this->load->view('category',$data1);
 			$this->load->view('footer');
         }
-=======
-		$this->load->model('AutopartModel');
-		$data['years']=$this->AutopartModel->getYears();
-		$data['loginError']=false;
-		$data['headerAlert']=null;
-		$data['headerFormModal']=null;
-		
-		$data1['categories']=$this->AutopartModel->getAllCategories();
-		$this->load->view('header',$data);
-		$this->load->view('category',$data1);
-		$this->load->view('footer');
->>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 	}
 
 	public function homepage(){

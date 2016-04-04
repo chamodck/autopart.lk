@@ -322,11 +322,8 @@ class UserManage extends CI_Controller {
 			$this->load->view('userDetailsForm');
 		}
 	}
-<<<<<<< HEAD
 
 	public function profile(){
 		
 	}
-=======
->>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 }

@@ -13,12 +13,7 @@
         <link href="<?php echo base_url();?>css/bootstrap-simplex-theme.css" rel="stylesheet" type="text/css">
 		<script src="<?php echo base_url();?>script/jquery-2.1.4.min.js" type="text/javascript"></script>
 		<script src="<?php echo base_url();?>script/bootstrap.min.js" type="text/javascript"></script>
-<<<<<<< HEAD
 		<link href="<?php echo base_url();?>css/font-awesome.min.css" rel="stylesheet" type="text/css">
-=======
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-      
->>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
     </head>
 
     <body>

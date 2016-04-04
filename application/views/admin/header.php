@@ -40,8 +40,6 @@ body {
     
     padding-top: 50px;
 }
-
-
 </style>
 
 </head>
@@ -60,6 +58,7 @@ body {
                 </button>
                 <a class="navbar-brand" href="<?php echo base_url();?>">SB Admin v2.0</a>
             </div>
+            
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
@@ -263,7 +262,7 @@ body {
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="<?php echo site_url('usermanage/logout'); ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="<?php echo site_url('UserManage/logout'); ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -285,6 +284,9 @@ body {
                             </span>
                             </div>
                             <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="<?=site_url('AdminController/advertiesments')?>"><i class="fa fa-dashboard fa-fw"></i> Advertiesments</a>
                         </li>
                         <li>
                             <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>

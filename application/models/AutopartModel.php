@@ -157,11 +157,7 @@
 
 		public function getNormalSearch($page){
 			if($this->input->get('search')){
-<<<<<<< HEAD
 				$limit=8;
-=======
-				$limit=1;
->>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 				$offset=$limit*$page-$limit;
 
 				$str=$this->input->get('search');
@@ -280,7 +276,6 @@
 			}
 		}
 		
-<<<<<<< HEAD
 		public function getItem($partID){
 			$query=$this->db->query("SELECT * FROM part WHERE partID=$partID");
 			return $query->row();
@@ -289,7 +284,5 @@
 		public function increseViews($partID){
 			$query=$this->db->query("UPDATE part SET views=views+1 WHERE partID=$partID");
 		}
-=======
->>>>>>> 1569e30ca9814140f0ea4ab1981fd92f1b3a13b1
 	}
 ?>
