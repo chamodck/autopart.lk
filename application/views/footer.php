@@ -48,7 +48,7 @@
 					<a href="#">Contact</a>
 				</p>
 
-				<p>&copy; autopart.lk 2016</p>
+				<p>&copy; autopart.lk 2016 All right reserved.</p>
 			</div>
 
 		</footer>
