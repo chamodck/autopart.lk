@@ -209,7 +209,6 @@ body {
       </li> 
     </ul>
 
-
      <ul class="nav navbar-right">
       
       <?php     
@@ -334,8 +333,21 @@ body {
          }
       ?>
       </ul>
+    <?php
+      //$this->load->library('cart');
+      if($this->cart->total_items()>0){
+    ?>
+      <ul class="nav navbar-right">
+        <a href="#">   
+          <i class="glyphicon glyphicon-shopping-cart lead"></i><span class="badge"><?=$this->cart->total_items()?></span>
+        </a>
+      </ul>
+    <?php
+      }
+    ?>
+    
 
-    <div class="navbar-right">
+    <div class="navbar-right col-md-2">
       <div class="dropdown">
         <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
         <?php

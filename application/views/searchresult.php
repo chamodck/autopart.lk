@@ -145,9 +145,6 @@
                                 }
                                 
                             ?>
-                            <dev class='pull-right'><a href='#' class='btn btn-default '>Add to <i class='glyphicon glyphicon-shopping-cart'></i></a></dev>
-                            <dev class='pull-right' style='padding-right:5px'><a href='#' class='btn btn-primary ' >Buy It Now</a></dev>
-                            <dev class='pull-right' style='padding-right:5px'><input type='number' id='quantity' class='form-control' name='quantity' style='width:60px' value='1' min='1' max='<?=$row->quantity?>' required></dev>
                                 
                             </div>
                             <h4 class="text-primary"><strong><?=$row->price?> Rs</strong></h4>
@@ -161,9 +158,7 @@
                             ?>
                             <div class="pull-right"><?=$interval?></div>
                             </div>
-                            
-                            
-                            
+
                         </div>
                     </div>
                     <?php

@@ -125,17 +125,130 @@ p {
 
             <div class="col-md-6">
                 <h3><?=$row->title?></h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
-                <h3>Project Details</h3>
+                <div class="well">
+                    <h4 class="text-primary"><strong><?=$row->price?> Rs</strong></h4>
+                    <?php     
+                        if($this->session->has_userdata('username')){//Checking whether a user has logged in
+                          
+                    ?>
+                    <div class="form-group">
+                        <a class="btn btn-primary" data-toggle="collapse" data-target="#payment">Buy It Now</a>
+                    </div>
+                    
+                    <div id="payment" class="collapse">
+                    <div class="panel-group" id="accordion">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                            Paypal</a>
+                          </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                              <form role="form" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+                              <!-- Identify your business so that you can collect the payments. -->
+                              <input type="hidden" name="business" value="herschelgomez@xyzzyu.com"/>
+
+                              <!-- Specify a Buy Now button. -->
+                              <input type="hidden" name="cmd" value="_xclick"/>
+
+                              <!-- Specify details about the item that buyers will purchase. -->
+                              <input type="hidden" name="item_name" value="Hot Sauce-12oz Bottle"/>
+                              <input type="hidden" name="amount" value="5.95"/>
+                              <input type="hidden" name="currency_code" value="AUD"/>
+
+                              <!-- Display the payment button. -->
+                             
+                                    <input name="submit" type="image"  src="<?php echo base_url();?>images/paypal/btn_buynow_LG.gif">
+                              
+                        
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                            Bank Account</a>
+                          </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse">
+                          <div class="panel-body">
+                                Bank : XXXXXX,<br>Account No : xxxxxxxxxx
+                                <p>Deposit your money and upload scan copy or photo of deposit slip here.</p>
+                                <div class="form-group">
+                                    <input type="file" name="userfile" accept="image/*" multiple>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Upload</button>
+                                </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+
+                    </div>
+
+                    
+                        
+                    
+
+                    <div id="bank" class="collapse">
+                        
+                    </div>
+
+                    
+                    <?php 
+                        }else{
+                    ?>
+                        <div  id="popup_placeholder">
+                        </div>
+                        
+                        
+
+                        <div class="form-group">
+                            <button name="submit" id="buy" class="btn btn-primary">Buy It Now</button>
+                        </div>
+ 
+                    <?php
+                        }
+                    ?>
+                    <form class="form-inline" action="<?php echo site_url('PaymentController/addToCart'); ?>" method="post">
+                        <input type="hidden" name="partid" value="<?=$row->partID?>"/>
+                        <div class="form-group">
+                            <input type='number' id='quantity' class='form-control' name='quantity' value='1' min='1' max='<?=$row->quantity?>' required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="pull-right btn btn-default">Add to Cart</button>
+                        </div>
+
+                    </form>
+                </div>
+
+            
+                
+                <p><?=$row->description?></p>
+                
                 <ul>
-                    <li>Lorem Ipsum</li>
-                    <li>Dolor Sit Amet</li>
-                    <li>Consectetur</li>
-                    <li>Adipiscing Elit</li>
+                    <li><a href="#"><?=$row->category?></a> -> <a href="#"><?=$row->subcategory?></a> </li>
+                    <li>
+                        <?php
+                            if($row->year){
+                                echo "Recommend for : <label class='text-success'>".$row->year." ".$row->madeby." ".$row->model." ".$row->submodel." ".$row->engine."</label>";
+                            }
+                        ?>
+                    </li>
+                    <li>Seller : <a href="#"><?=$row->username?></a></li>
+                    <li>part ID : <?=$row->partID?></li>
                 </ul>
             </div>
-
+            
         </div>
+
         <!-- /.row -->
 
         <!-- Related Projects Row -->
@@ -179,7 +292,17 @@ p {
 <script type="text/javascript">
   $(document).ready(function() {
     $(".mCustomScrollbar").mCustomScrollbar({axis:"x"});
+    });
+
+popup=function(message) {
+            $('#popup_placeholder').html("<div class='alert alert-dismissible alert-danger fade in'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>Login</strong> to your account before "+message+".</div>")
+        }
+
+$('#buy').on('click', function() {
+   popup("Buy");
 });
+
+
 </script>
 
 
