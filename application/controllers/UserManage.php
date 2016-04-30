@@ -6,7 +6,20 @@ class UserManage extends CI_Controller {
 	public function login(){
 		$this->load->model('UserManageModel');
 		$result=$this->UserManageModel->login();
-		if($result==1){
+		if($result==0){
+			if($this->cart->total_items()>0){
+				$this->load->model('PaymentModel');
+				$this->PaymentModel->addToUserCart();
+			}
+			
+			redirect("","refresh");
+		}
+		else if($result==1){
+			if($this->cart->total_items()>0){
+				$this->load->model('PaymentModel');
+				$this->PaymentModel->addToUserCart();
+			}
+			//$this->load->model('UserManageModel');
 			$this->load->view('userDetailsForm');
 		}
 		else if($result==2){

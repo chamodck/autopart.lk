@@ -232,12 +232,12 @@ body {
         else{
             $this->load->helper('cookie');
             $value1=get_cookie('remember_me_user');
-            $value2=get_cookie('remember_me_pass');
-            $u="";$p="";
-            if($value1 && $value2){
+            //$value2=get_cookie('remember_me_pass');
+            $u="";//$p="";
+            if($value1){
               
               $u=$value1;
-              $p=$value2;
+              //$p=$value2;
             }
         ?>
           <li class="dropdown" id="menuLogin">
@@ -252,7 +252,7 @@ body {
                     <input name="loginusername" <?php if($u){echo "value=$u";} ?> class="form-control" id="username" type="text" placeholder="Email/Username" title="Enter your email/username" required="">
                   </div>
                   <div class="form-group">
-                    <input name="loginpassword" <?php if($p){echo "value=$p";} ?> class="form-control" id="password" type="password" placeholder="Password" title="Enter your password" required="">
+                    <input name="loginpassword" class="form-control" id="password" type="password" placeholder="Password" title="Enter your password" required="">
                     <?php 
                       if($loginError){
                         if($emailVerifyError){
@@ -335,11 +335,21 @@ body {
       </ul>
     <?php
       //$this->load->library('cart');
-      if($this->cart->total_items()>0){
+      if($this->cart->total_items()>0 || $this->session->userdata('quantity')>0){
     ?>
       <ul class="nav navbar-right">
-        <a href="#">   
-          <i class="glyphicon glyphicon-shopping-cart lead"></i><span class="badge"><?=$this->cart->total_items()?></span>
+      
+        <a href="<?php echo site_url('PaymentController/cart'); ?>">   
+          <i class="glyphicon glyphicon-shopping-cart lead"></i>
+          <span class="badge">
+            <?php
+              if($this->cart->total_items()>0){
+                echo $this->cart->total_items();
+              }else if($this->session->userdata('quantity')>0){
+                echo $this->session->userdata('quantity');
+              }
+            ?>
+          </span>
         </a>
       </ul>
     <?php

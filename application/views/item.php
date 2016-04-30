@@ -218,7 +218,9 @@ p {
                         }
                     ?>
                     <form class="form-inline" action="<?php echo site_url('PaymentController/addToCart'); ?>" method="post">
-                        <input type="hidden" name="partid" value="<?=$row->partID?>"/>
+                        <input type="hidden" name="id" value="<?=$row->partID?>"/>
+                        <input type="hidden" name="price" value="<?=$row->price?>"/>
+                        <input type="hidden" name="name" value="<?=$row->title?>"/>
                         <div class="form-group">
                             <input type='number' id='quantity' class='form-control' name='quantity' value='1' min='1' max='<?=$row->quantity?>' required>
                         </div>

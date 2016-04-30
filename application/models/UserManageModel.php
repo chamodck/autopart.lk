@@ -13,27 +13,30 @@
 				if($verify=='yes' || $verify=='standby'){
 					$this->load->helper('cookie');
 					if($this->input->post('remember')){
-						$cookie1=array('name'=>'remember_me_user','value'=>$username,'expire'=>time()+50400,'path'=>'/');
-						$cookie2=array('name'=>'remember_me_pass','value'=>$pass,'expire'=>time()+50400,'path'=>'/');
+						$cookie1=array('name'=>'remember_me_user','value'=>$username,'expire'=>time()+2592000,'path'=>'/');
+						//$cookie2=array('name'=>'remember_me_pass','value'=>$pass,'expire'=>time()+50400,'path'=>'/');
 						set_cookie($cookie1);
-						set_cookie($cookie2);
+						//set_cookie($cookie2);
 					}else{
 						$value1=get_cookie('remember_me_user');
-						$value2=get_cookie('remember_me_pass');
-	            		if($value1 && $value2){
-	            			
+						//$value2=get_cookie('remember_me_pass');
+	            		if($value1){
 				            if($value1==$username){
 				            	delete_cookie('remember_me_user');
-				            	delete_cookie('remember_me_pass');
+				            	//delete_cookie('remember_me_pass');
 				            }
 	            		}
 					}
 
+					//get cart quantity
+					$query1=$this->db->query("SELECT SUM(qty) AS quantity FROM cart WHERE username='".$row->username."'");
+
 					$row=$query->row();
-					$newdata=array('username'=>$row->username,'email'=>$row->email);
+					$newdata=array('username'=>$row->username,'email'=>$row->email,'quantity'=>$query1->row()->quantity);
 					$this->session->set_userdata($newdata);
 					if($verify=='yes'){
-						redirect('','location');
+						return 0;
+						//redirect('','location');
 					}else{
 						$query=$this->db->query("UPDATE user SET emailVerify='yes' WHERE username='$username'");
 						return 1;

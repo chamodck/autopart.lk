@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.5.2
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 08, 2016 at 10:45 AM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Host: localhost
+-- Generation Time: Apr 30, 2016 at 10:16 AM
+-- Server version: 10.1.10-MariaDB
+-- PHP Version: 5.6.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `autopart`
@@ -26,16 +26,20 @@ SET time_zone = "+00:00";
 -- Table structure for table `cart`
 --
 
-CREATE TABLE IF NOT EXISTS `cart` (
-  `cardID` int(11) NOT NULL AUTO_INCREMENT,
-  `partID` int(11) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  `address` varchar(150) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  PRIMARY KEY (`cardID`),
-  KEY `partID` (`partID`,`username`),
-  KEY `userID` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+CREATE TABLE `cart` (
+  `id` varchar(20) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `name` varchar(300) NOT NULL,
+  `username` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `qty`, `price`, `name`, `username`) VALUES
+('101', 1, 6500, 'Name Name Name Name Name Name Name', 'chamod');
 
 -- --------------------------------------------------------
 
@@ -43,10 +47,9 @@ CREATE TABLE IF NOT EXISTS `cart` (
 -- Table structure for table `category`
 --
 
-CREATE TABLE IF NOT EXISTS `category` (
+CREATE TABLE `category` (
   `subCategory` varchar(30) NOT NULL,
-  `category` varchar(30) NOT NULL,
-  PRIMARY KEY (`subCategory`)
+  `category` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -136,12 +139,11 @@ INSERT INTO `category` (`subCategory`, `category`) VALUES
 -- Table structure for table `chats`
 --
 
-CREATE TABLE IF NOT EXISTS `chats` (
-  `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `chats` (
+  `id` int(5) UNSIGNED NOT NULL,
   `message` text NOT NULL,
-  `time` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `time` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `chats`
@@ -159,14 +161,12 @@ INSERT INTO `chats` (`id`, `message`, `time`) VALUES
 -- Table structure for table `fanswer`
 --
 
-CREATE TABLE IF NOT EXISTS `fanswer` (
+CREATE TABLE `fanswer` (
   `question_id` int(4) NOT NULL DEFAULT '0',
   `a_id` int(4) NOT NULL DEFAULT '0',
   `user` varchar(65) NOT NULL DEFAULT '',
   `a_answer` longtext NOT NULL,
-  `a_datetime` varchar(25) NOT NULL DEFAULT '',
-  KEY `a_id` (`a_id`),
-  KEY `user` (`user`)
+  `a_datetime` varchar(25) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -182,17 +182,15 @@ INSERT INTO `fanswer` (`question_id`, `a_id`, `user`, `a_answer`, `a_datetime`) 
 -- Table structure for table `fquestions`
 --
 
-CREATE TABLE IF NOT EXISTS `fquestions` (
-  `id` int(4) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `fquestions` (
+  `id` int(4) NOT NULL,
   `user` varchar(65) NOT NULL DEFAULT '',
   `topic` varchar(255) NOT NULL DEFAULT '',
   `detail` longtext NOT NULL,
   `datetime` varchar(25) NOT NULL DEFAULT '',
   `view` int(4) NOT NULL DEFAULT '0',
-  `reply` int(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `user` (`user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+  `reply` int(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `fquestions`
@@ -208,8 +206,8 @@ INSERT INTO `fquestions` (`id`, `user`, `topic`, `detail`, `datetime`, `view`, `
 -- Table structure for table `part`
 --
 
-CREATE TABLE IF NOT EXISTS `part` (
-  `partID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `part` (
+  `partID` int(11) NOT NULL,
   `date` datetime NOT NULL,
   `username` varchar(60) NOT NULL,
   `title` varchar(100) NOT NULL,
@@ -226,12 +224,8 @@ CREATE TABLE IF NOT EXISTS `part` (
   `price` int(11) NOT NULL,
   `keyword` varchar(500) NOT NULL,
   `numofphotos` int(2) NOT NULL DEFAULT '0',
-  `views` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`partID`),
-  KEY `userID` (`username`),
-  KEY `subCategory` (`subcategory`),
-  KEY `category` (`category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=121 ;
+  `views` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `part`
@@ -333,26 +327,30 @@ INSERT INTO `part` (`partID`, `date`, `username`, `title`, `category`, `subcateg
 (98, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Air Intake Systems', '', '', '', '', '', 1, '', 'Brand New', 9800, '', 0, 0),
 (99, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Carburetors', '', '', '', '', '', 1, '', 'Brand New', 6500, '', 4, 0),
 (100, '0000-00-00 00:00:00', 'akila', '', 'Replacement', 'Ball Joints', '', '', '', '', '', 1, '', 'Used', 1500, '', 1, 0),
-(101, '0000-00-00 00:00:00', 'akila', '', 'Interior', 'Floor Liners/Mats', '2010', 'Honda', '', '', '', 4, '', 'Used', 6500, 'Interior#FloorLinersandMats#oil pump#1995#town ace', 3, 0),
-(102, '0000-00-00 00:00:00', 'akila', '', 'Suspension', 'Leveling Kits', '2010', 'Honda', '', '', '', 1, '', 'Brand New', 8900, 'Suspension#LevelingKits####oilpump#town ace#1995', 1, 0),
-(103, '0000-00-00 00:00:00', 'akila', '', 'Exterior', 'Bug Deflectors', '2010', 'Honda', 'Civic', 'EX-L', '4Cyl_1.8L', 1, '', 'Brand New', 7500, 'Exterior#BugDeflectors#2010#Honda#Civic#EX-L#4Cyl_1.8L', 4, 0),
+(101, '0000-00-00 00:00:00', 'akila', 'Name Name Name Name Name Name Name', 'Interior', 'Floor Liners/Mats', '2010', 'Honda', '', '', '', 4, '', 'Used', 6500, 'Interior#FloorLinersandMats#oil pump#1995#town ace', 3, 36),
+(102, '0000-00-00 00:00:00', 'akila', '', 'Suspension', 'Leveling Kits', '2010', 'Honda', '', '', '', 1, '', 'Brand New', 8900, 'Suspension#LevelingKits####oilpump#town ace#1995', 1, 73),
+(103, '0000-00-00 00:00:00', 'akila', '103 103 103 103', 'Exterior', 'Bug Deflectors', '2010', 'Honda', 'Civic', 'EX-L', '4Cyl_1.8L', 1, '', 'Brand New', 7500, 'Exterior#BugDeflectors#2010#Honda#Civic#EX-L#4Cyl_1.8L', 4, 44),
 (104, '0000-00-00 00:00:00', 'akila', '', 'Replacement', 'Brake Rotors', '2010', 'Honda', 'Civic', 'GX', '4Cyl_1.8L', 1, '', 'Brand New', 2000, 'Replacement#BrakeRotors#2010#Honda#Civic#GX#4Cyl_1.8L', 0, 0),
 (105, '0000-00-00 00:00:00', 'akila', '', 'Replacement', 'Bumpers', '2010', 'Honda', 'Civic', 'EX', '4Cyl_1.8L', 1, '', 'Brand New', 3200, 'Replacement#Bumpers#2010#Honda#Civic#EX#4Cyl_1.8L', 0, 0),
-(106, '0000-00-00 00:00:00', 'akila', '', 'Wheels and Tires', 'Wheel Bearings and Hubs', '2010', 'Honda', 'Civic', 'Hybrid', '4Cyl_1.8L', 1, '', 'Brand New', 3200, 'WheelsandTires#WheelBearingsandHubs#2010#Honda#Civic#Hybrid#4Cyl_1.8L', 0, 0),
-(107, '2016-02-28 13:38:06', 'akila', '', 'Replacement', 'Brake Pads', '2010', 'Honda', 'Accord Crosstour', '', '', 1, '', 'Brand New', 3200, 'Replacement#BrakePads#2010#Honda#AccordCrosstour', 0, 0),
+(106, '0000-00-00 00:00:00', 'akila', '', 'Wheels and Tires', 'Wheel Bearings and Hubs', '2010', 'Honda', 'Civic', 'Hybrid', '4Cyl_1.8L', 1, '', 'Brand New', 3200, 'WheelsandTires#WheelBearingsandHubs#2010#Honda#Civic#Hybrid#4Cyl_1.8L', 0, 1),
+(107, '2016-02-28 13:38:06', 'akila', '', 'Replacement', 'Brake Pads', '2010', 'Honda', 'Accord Crosstour', '', '', 1, '', 'Brand New', 3200, 'Replacement#BrakePads#2010#Honda#AccordCrosstour', 0, 1),
 (108, '2016-02-28 09:09:44', 'akila', '', 'Replacement', 'Ball Joints', '', '', '', '', '', 1, '', 'Brand New', 3000, 'Replacement#BallJoints', 0, 0),
-(109, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Clutches', '', '', '', '', '', 1, '', 'Brand New', 9800, 'Performance#Clutches', 0, 0),
+(109, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Clutches', '', '', '', '', '', 1, '', 'Brand New', 9800, 'Performance#Clutches', 0, 1),
 (110, '0000-00-00 00:00:00', 'akila', '', 'Replacement', 'Brake Rotors', '', '', '', '', '', 1, '', 'Brand New', 2000, 'Replacement#BrakeRotors', 0, 0),
-(111, '2016-02-28 05:10:52', 'akila', '', 'Suspension', 'Body Lift Kit', '', '', '', '', '', 1, '', 'Brand New', 3000, 'Suspension#BodyLiftKit', 0, 0),
-(112, '2016-02-28 05:12:06', 'akila', '', 'Interior', 'Floor Liners/Mats', '', '', '', '', '', 1, '', 'Brand New', 2000, 'Interior#FloorLinersandMats', 0, 0),
-(113, '2016-02-28 17:13:02', 'akila', '', 'Performance', 'Carburetors', '', '', '', '', '', 1, '', 'Brand New', 3200, 'Performance#Carburetors', 0, 0),
-(114, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Carburetors', '', '', '', '', '', 1, '', 'Brand New', 3200, 'Performance#Carburetors', 0, 0),
-(115, '2016-02-28 11:20:44', 'akila', '', 'Wheels and Tires', 'Wheel Locks', '', '', '', '', '', 1, '', 'Brand New', 3200, 'WheelsandTires#WheelLocks', 0, 0),
-(116, '2016-02-28 12:17:32', 'akila', '1998 doctor nissan side door', 'Exterior', 'Car Covers', '', '', '', '', '', 1, '', 'Brand New', 5500, 'Exterior#CarCovers', 1, 0),
-(117, '2016-02-28 12:22:15', 'akila', '1998 doctor nissan side door', 'Exterior', 'Car Covers', '', '', '', '', '', 1, '1998 doctor nissan side door', 'Used', 3200, '1998#doctor#nissan#side#door#Exterior#CarCovers', 0, 0),
-(118, '2016-03-07 16:00:32', 'chamod', 'Interior for land rover dicovery', 'Interior', 'Dash Covers', '2010', 'Land Rover', 'Discovery', '', '', 2, '', 'Used', 5600, 'Interior#for#land#rover#dicovery#Interior#DashCovers#2010#LandRover#Discovery', 0, 0),
-(119, '2016-03-07 16:01:14', 'chamod', 'Exterior for Dicovery', 'Exterior', 'Headlights', '2010', 'Land Rover', 'Discovery', '', '', 1, '', 'Brand New', 10000, 'Exterior#for#Dicovery#Exterior#Headlights#2010#LandRover#Discovery', 0, 0),
-(120, '2016-03-08 10:10:33', 'chamod', 'aaa', 'Replacement', 'Ball Joints', '', '', '', '', '', 1, '', 'Brand New', 5000, 'aaa#Replacement#BallJoints', 0, 0);
+(111, '2016-02-28 05:10:52', 'akila', '', 'Suspension', 'Body Lift Kit', '', '', '', '', '', 1, '', 'Brand New', 3000, 'Suspension#BodyLiftKit', 0, 35),
+(112, '2016-02-28 05:12:06', 'akila', '', 'Interior', 'Floor Liners/Mats', '', '', '', '', '', 1, '', 'Brand New', 2000, 'Interior#FloorLinersandMats', 0, 1),
+(113, '2016-02-28 17:13:02', 'akila', '', 'Performance', 'Carburetors', '', '', '', '', '', 1, '', 'Brand New', 3200, 'Performance#Carburetors', 0, 1),
+(114, '0000-00-00 00:00:00', 'akila', '', 'Performance', 'Carburetors', '', '', '', '', '', 1, '', 'Brand New', 3200, 'Performance#Carburetors', 0, 6),
+(115, '2016-02-28 11:20:44', 'akila', '', 'Wheels and Tires', 'Wheel Locks', '', '', '', '', '', 1, '', 'Brand New', 3200, 'WheelsandTires#WheelLocks', 0, 8),
+(116, '2016-02-28 12:17:32', 'akila', '1998 doctor nissan side door', 'Exterior', 'Car Covers', '', '', '', '', '', 1, '', 'Brand New', 5500, 'Exterior#CarCovers', 1, 8),
+(117, '2016-02-28 12:22:15', 'akila', '1998 doctor nissan side door', 'Exterior', 'Car Covers', '', '', '', '', '', 1, '1998 doctor nissan side door', 'Used', 3200, '1998#doctor#nissan#side#door#Exterior#CarCovers', 0, 4),
+(118, '2016-03-07 16:00:32', 'chamod', 'Interior for land rover dicovery', 'Interior', 'Dash Covers', '2010', 'Land Rover', 'Discovery', '', '', 2, '', 'Used', 5600, 'Interior#for#land#rover#dicovery#Interior#DashCovers#2010#LandRover#Discovery', 0, 8),
+(119, '2016-03-07 16:01:14', 'chamod', 'Exterior for Dicovery', 'Exterior', 'Headlights', '2010', 'Land Rover', 'Discovery', '', '', 1, '', 'Brand New', 10000, 'Exterior#for#Dicovery#Exterior#Headlights#2010#LandRover#Discovery', 0, 3),
+(120, '2016-03-08 10:10:33', 'chamod', 'aaa', 'Replacement', 'Ball Joints', '', '', '', '', '', 1, '', 'Brand New', 5000, 'aaa#Replacement#BallJoints', 0, 0),
+(121, '2016-03-14 17:48:52', 'kavinga', 'fdbvf', 'Exterior', 'Taillights', '', '', '', '', '', 10, '', 'Brand New', 5600, 'fdbvf#Exterior#Taillights', 1, 54),
+(122, '2016-03-14 19:00:47', 'kavinga', 'frdgrd', 'Performance', 'Carburetors', '', '', '', '', '', 1, '', 'Brand New', 1000, 'frdgrd#Performance#Carburetors', 0, 0),
+(123, '2016-03-14 19:07:31', 'kavinga', 'abc def ghi', 'Replacement', 'Spark Plugs', '', '', '', '', '', 1, '', 'Brand New', 3200, 'abc#def#ghi#Replacement#SparkPlugs', 0, 0),
+(124, '2016-03-14 19:14:44', 'kavinga', '2000 Mazda bongo van fuel pump', 'Performance', 'Fuel Injection Pump', '', '', '', '', '', 1, '', 'Brand New', 3600, '2000#Mazda#bongo#van#fuel#pump#Performance#FuelInjectionPump', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -360,31 +358,38 @@ INSERT INTO `part` (`partID`, `date`, `username`, `title`, `category`, `subcateg
 -- Table structure for table `user`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `email` varchar(60) NOT NULL,
   `mobilenumber` varchar(20) NOT NULL,
   `usertype` varchar(10) DEFAULT NULL,
   `resetpasswordcode` varchar(100) NOT NULL DEFAULT 'init',
-  PRIMARY KEY (`username`),
-  UNIQUE KEY `username` (`username`,`email`,`mobilenumber`)
+  `emailVerify` varchar(100) NOT NULL DEFAULT 'no',
+  `firstname` varchar(30) NOT NULL,
+  `lastname` varchar(30) NOT NULL,
+  `nic` varchar(9) NOT NULL,
+  `contact` varchar(10) NOT NULL,
+  `address1` varchar(30) NOT NULL,
+  `address2` varchar(30) NOT NULL,
+  `address3` varchar(30) NOT NULL,
+  `bank` varchar(30) NOT NULL,
+  `holdername` varchar(50) NOT NULL,
+  `accnum` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`username`, `password`, `email`, `mobilenumber`, `usertype`, `resetpasswordcode`) VALUES
-('abc', 'fcea920f7412b5da7be0cf42b8c93759', 'abc@gmail.com', '', NULL, 'init'),
-('admin', 'fcea920f7412b5da7be0cf42b8c93759', 'admin@gmail.com', '0712223334', NULL, 'init'),
-('akila', '4c2bd0cde4867496f07cf2a751c77b66', 'akila@gmail.com', '', NULL, 'init'),
-('autopartadmin', 'fcea920f7412b5da7be0cf42b8c93759', 'autopartadmin@gmail.com', '0729577692', 'admin', 'init'),
-('chamod', '01936e0f3b02cdcabd354354784851fd', 'chamodck@gmail.com', '0729577692', NULL, 'init'),
-('janith', 'fcea920f7412b5da7be0cf42b8c93759', 'jani@gmail.com', '0718558551', NULL, 'init'),
-('ljklj', 'fcea920f7412b5da7be0cf42b8c93759', 'd@gmail.com', '1234567890', NULL, 'init'),
-('miyuru', 'fcea920f7412b5da7be0cf42b8c93759', 'miyu@gmail.com', '0733333333', NULL, 'init'),
-('nisal', 'fcea920f7412b5da7be0cf42b8c93759', 'nisal@gmail.com', '0777777777', NULL, 'init');
+INSERT INTO `user` (`username`, `password`, `email`, `mobilenumber`, `usertype`, `resetpasswordcode`, `emailVerify`, `firstname`, `lastname`, `nic`, `contact`, `address1`, `address2`, `address3`, `bank`, `holdername`, `accnum`) VALUES
+('admin', '21232f297a57a5a743894a0e4a801fc3', 'autopart720@gmail.com', '0712223334', NULL, 'init', 'yes', '', '', '', '', '', '', '', '', '', ''),
+('akila', '4c2bd0cde4867496f07cf2a751c77b66', 'akilajwasala@gmail.com', '', NULL, 'init', 'no', '', '', '', '', '', '', '', '', '', ''),
+('autopartadmin', 'fcea920f7412b5da7be0cf42b8c93759', 'autopartadmin@gmail.com', '0729577692', 'admin', 'init', 'no', '', '', '', '', '', '', '', '', '', ''),
+('chamod', '01936e0f3b02cdcabd354354784851fd', 'chamodck1@gmail.com', '0729577692', NULL, 'init', 'yes', '', '', '', '', '', '', '', '', '', ''),
+('janith', 'fcea920f7412b5da7be0cf42b8c93759', 'jani@gmail.com', '0718558551', NULL, 'init', 'no', '', '', '', '', '', '', '', '', '', ''),
+('kavinga', 'ab01954e11643252dd8fe57da2343c15', 'chamodck@gmail.com', '', NULL, '5afa0f829c2019f5069109803ec8a964', 'yes', 'chamod', 'jayasundara', '922904030', '0755115455', 'kurundugolla', 'polgahawela', 'polgahawela', 'peoples bank', 'chamod jayasundara', '0123456789'),
+('miyuru', 'fcea920f7412b5da7be0cf42b8c93759', 'miyu@gmail.com', '0733333333', NULL, 'init', 'no', '', '', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -392,14 +397,13 @@ INSERT INTO `user` (`username`, `password`, `email`, `mobilenumber`, `usertype`,
 -- Table structure for table `vehicle`
 --
 
-CREATE TABLE IF NOT EXISTS `vehicle` (
+CREATE TABLE `vehicle` (
   `vehicleID` int(3) NOT NULL,
   `year` int(4) NOT NULL,
   `madeBy` varchar(20) NOT NULL,
   `model` varchar(20) NOT NULL,
   `submodel` varchar(20) NOT NULL,
-  `engine` varchar(20) NOT NULL,
-  PRIMARY KEY (`vehicleID`)
+  `engine` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -435,14 +439,85 @@ INSERT INTO `vehicle` (`vehicleID`, `year`, `madeBy`, `model`, `submodel`, `engi
 (26, 2010, 'Benz', 'a', '', '');
 
 --
--- Constraints for dumped tables
+-- Indexes for dumped tables
 --
 
 --
--- Constraints for table `cart`
+-- Indexes for table `cart`
 --
 ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`partID`) REFERENCES `part` (`partID`);
+  ADD PRIMARY KEY (`id`,`username`);
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`subCategory`);
+
+--
+-- Indexes for table `chats`
+--
+ALTER TABLE `chats`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `fanswer`
+--
+ALTER TABLE `fanswer`
+  ADD KEY `a_id` (`a_id`),
+  ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `fquestions`
+--
+ALTER TABLE `fquestions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `part`
+--
+ALTER TABLE `part`
+  ADD PRIMARY KEY (`partID`),
+  ADD KEY `userID` (`username`),
+  ADD KEY `subCategory` (`subcategory`),
+  ADD KEY `category` (`category`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`username`),
+  ADD UNIQUE KEY `username` (`username`,`email`,`mobilenumber`);
+
+--
+-- Indexes for table `vehicle`
+--
+ALTER TABLE `vehicle`
+  ADD PRIMARY KEY (`vehicleID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `chats`
+--
+ALTER TABLE `chats`
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `fquestions`
+--
+ALTER TABLE `fquestions`
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `part`
+--
+ALTER TABLE `part`
+  MODIFY `partID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+--
+-- Constraints for dumped tables
+--
 
 --
 -- Constraints for table `fanswer`
